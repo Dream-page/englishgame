@@ -72,16 +72,17 @@
         /* ----- 설정 화면 (Setup Screen) ----- */
         #setup-screen {
             background-color: #e0f7fa; 
-            padding: 30px 40px;
+            padding: 30px 40px 40px 40px; /* 아래쪽 패딩 추가 */
             border-radius: 30px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             text-align: center;
             z-index: 10;
             width: 90%;
             max-width: 800px;
-            max-height: 95vh;
+            max-height: 90vh; /* 모바일을 위해 최대 높이 축소 */
             overflow-y: auto;
             border: 5px solid #81ecec;
+            box-sizing: border-box; /* 패딩 포함 높이 계산 안전장치 */
         }
 
         #setup-screen h1 {
@@ -233,6 +234,38 @@
             background-color: #ffeaa7;
         }
 
+        /* 🌟 모바일 대응을 위한 미디어 쿼리 추가 🌟 */
+        @media (max-width: 600px) {
+            #setup-screen {
+                padding: 20px 20px 30px 20px;
+                width: 95%;
+                max-height: 85vh; /* 하단 툴바가 생기는 모바일에 더 안전하게! */
+                border-width: 3px;
+                border-radius: 20px;
+            }
+            #setup-screen h1 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            .mode-label {
+                min-width: 100%; /* 버튼이 한 줄로 예쁘게 정렬되도록 */
+                padding: 10px;
+            }
+            .mode-selection {
+                flex-direction: column; /* 세로 정렬 */
+                gap: 8px;
+            }
+            .flex-mobile-col {
+                flex-direction: column !important; /* 학년 선택창도 모바일에선 세로로 */
+            }
+            button.start-btn {
+                font-size: 1.5rem;
+                padding: 12px 20px;
+                margin-top: 15px;
+                margin-bottom: 20px; /* 아래 스크롤 여유 공간 */
+            }
+        }
+
         /* ----- 게임 화면 (Game Screen) ----- */
         #game-screen {
             display: none;
@@ -315,6 +348,17 @@
             border: 4px dashed #ff9ff3;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             animation: float 2s infinite ease-in-out;
+        }
+
+        #blur-image {
+            max-width: 50vw;
+            max-height: 40vh;
+            border-radius: 20px;
+            transition: filter 0.5s ease;
+            display: none;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            object-fit: contain;
         }
 
         #blur-word {
@@ -733,7 +777,7 @@
             </div>
             
             <label>📚 교과서 자동 세팅 (YBM)</label>
-            <div style="display: flex; gap: 10px;">
+            <div class="flex-mobile-col" style="display: flex; gap: 10px;">
                 <select id="grade-select" onchange="updateLessonOptions()">
                     <option value="">학년 선택</option>
                     <option value="3">3학년</option>
@@ -752,14 +796,24 @@
             <input type="text" id="lesson-info" placeholder="화면 상단에 표시됩니다 (생략 가능)" autocomplete="off">
         </div>
 
+        <!-- 🌟 새롭게 추가된 기능: 폴더명 일괄 적용 🌟 -->
         <div class="input-group">
-            <label for="word-list">단어/문장 리스트 (엔터로 구분)</label>
+            <label for="base-folder">📁 이미지 폴더명 일괄 적용 (선택사항)</label>
+            <div style="font-size: 0.85rem; color: #636e72; margin-bottom: 5px;">
+                사진이 든 폴더 이름을 적어두면 아래에 파일명만 써도 자동으로 폴더를 찾아갑니다.<br>
+                예: <code>영어4_김_01_단어 이미지 모음</code> 이라고 적고 아래 리스트엔 <code>bad.png | bad | 나쁜</code> 처럼 적어주세요.
+            </div>
+            <input type="text" id="base-folder" placeholder="예: 영어4_김_01_단어 이미지 모음 (비워두어도 됩니다)" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label for="word-list">단어/문장/그림 리스트 (엔터로 구분)</label>
             <div style="font-size: 0.85rem; color: #636e72; margin-bottom: 5px; background: white; padding: 10px; border-radius: 10px; line-height: 1.6;">
                 <strong>[입력 방법 안내]</strong><br>
-                * <code>영어단어 | 한글뜻</code> 형태로 입력해주세요.<br>
-                * 예시: <code>apple | 사과</code>
+                * 📝 <b>기본(자동으로 사진 찾기):</b> 폴더명 적고, 본문은 <code>apple | 사과</code> 처럼 두면 끝!<br>
+                * 🖼️ <b>사진 이름 직접 지정할 때:</b> <code>bad.png | bad | 나쁜 기분의</code>
             </div>
-            <textarea id="word-list" placeholder="apple | 사과&#10;banana | 바나나&#10;..."></textarea>
+            <textarea id="word-list" placeholder="apple | 사과&#10;bad.png | bad | 나쁜 기분의&#10;..."></textarea>
         </div>
 
         <div class="input-group">
@@ -856,6 +910,7 @@
 
         <div id="blur-container">
             <div id="mission-text"></div>
+            <img id="blur-image" src="" alt="blur-image">
             <div id="blur-word"></div>
             <div id="blur-ko"></div>
         </div>
@@ -1056,7 +1111,7 @@
             },
             "4": {
                 "1": ["How are you? | 기분이 어때?", "I am great. | 매우 좋아.", "I am fine. | 좋아.", "Not bad. | 나쁘지 않아.", "Not so good. | 별로 좋지 않아.", "Hello! I am Yeji. | 안녕! 나는 예지야.", "Nice to meet you. | 만나서 반가워.", "Nice to meet you, too. | 나도 만나서 반가워.", "How about you? | 너는 어때?", "This is my friend, Andy. | 이 아이는 나의 친구, 앤디야.", "Come in, please. | 들어오렴.", "Wow! It is delicious. | 우아! 이것은 맛있어요."],
-                "2": ["Let's play baseball. | 우리 야구하자.", "Let's play soccer. | 우리 축구하자.", "Let's play badminton. | 우리 배드민턴 치자.", "Sounds good. | 좋아.", "Sounds great. | 멋져.", "Sorry, I can't. | 미안하지만, 안 되겠어.", "I am busy. | 나는 바빠.", "I have a violin lesson. | 나는 바이올린 수업이 있어.", "Pass the ball, Minh. | 공을 패스해 줘, 민아.", "Let's go outside. | 우리 밖으로 나가자.", "It is raining. | 비가 온다.", "I have an idea. | 나한테 좋은 생각이 있어."],
+                "2": ["Let's play baseball. | 우리 야구하자.", "Let's play soccer. | 우리 축구하자.", "Let's play badminton. | draw | 그리다", "Sounds good. | 좋아.", "Sounds great. | 멋져.", "Sorry, I can't. | 미안하지만, 안 되겠어.", "I am busy. | 나는 바빠.", "I have a violin lesson. | 나는 바이올린 수업이 있어.", "Pass the ball, Minh. | 공을 패스해 줘, 민아.", "Let's go outside. | 우리 밖으로 나가자.", "It is raining. | 비가 온다.", "I have an idea. | 나한테 좋은 생각이 있어."],
                 "3": ["Where is my bag? | 내 가방이 어디에 있지?", "It is in the box. | 상자 안에 있어.", "It is on the desk. | 책상 위에 있어.", "It is under the table. | 탁자 아래에 있어.", "Where is my book? | 내 책이 어디에 있지?", "Where is my phone? | 내 휴대 전화가 어디에 있지?", "Let's start. | 시작하자.", "Here is some paper. | 여기 약간의 종이가 있어.", "I can't find it. | 나는 그것을 찾을 수가 없어.", "Don't worry. | 걱정하지 마.", "Hurry up! | 서둘러!", "I can help you. | 내가 너를 도와줄 수 있어."],
                 "4": ["Are you happy? | 너 행복하니?", "Are you sad? | 너 슬프니?", "Are you angry? | 너 화났니?", "Are you thirsty? | 너 목마르니?", "Are you hungry? | 너 배고프니?", "Are you tired? | 너 피곤하니?", "Yes, I am. | 응, 그래.", "No, I am not. | 아니, 그렇지 않아.", "Watch out! | 조심해!", "Let's clean up. | 우리 같이 치우자.", "Here you are. | 여기 있어.", "Let's go inside. | 안으로 들어가자."],
                 "5": ["Don't touch, please. | 만지지 말아 주세요.", "Don't run, please. | 뛰지 말아 주세요.", "Don't eat, please. | 먹지 말아 주세요.", "Don't enter, please. | 들어가지 말아 주세요.", "Don't push, please. | 밀지 말아 주세요.", "Don't talk, please. | 말하지 말아 주세요.", "Okay. I am sorry. | 네. 죄송해요.", "That is okay. | 괜찮아요.", "Let's buy some fruit. | 우리 과일을 좀 사자.", "Do you like grapes? | 너는 포도를 좋아하니?", "Let's eat together. | 우리 같이 먹자.", "Just look, please. | 눈으로만 봐 주세요."],
@@ -1161,6 +1216,7 @@
                 }
             }
             
+            // 힌트 모드 On/Off 상태 저장
             const hintRadios = document.getElementsByName('hint-mode');
             for (const radio of hintRadios) {
                 if (radio.checked) {
@@ -1169,30 +1225,77 @@
                 }
             }
 
+            // 🌟 폴더명 일괄 적용 및 띄어쓰기/경로 오류 방지 처리 🌟
+            let baseFolder = document.getElementById('base-folder').value.trim();
+            if (baseFolder && !baseFolder.endsWith('/')) {
+                baseFolder += '/';
+            }
+
             words = [];
             parsedLines.forEach(line => {
+                let img = null;
                 let en = line;
                 let ko = "";
 
+                // 🌟 이미지 자동 삽입 (안전 장치 포함) 🌟
                 if (line.includes('|')) {
                     const parts = line.split('|').map(p => p.trim());
-                    if (parts.length >= 2) {
+                    if (parts.length >= 3) {
+                        img = parts[0];
+                        en = parts[1];
+                        ko = parts[2];
+                    } else if (parts.length === 2) {
                         en = parts[0];
                         ko = parts[1];
+                        if (baseFolder) {
+                            img = en.match(/\.(png|jpg|jpeg|gif)$/i) ? en : en + ".png";
+                        }
+                    } else {
+                        en = parts[0];
+                        if (baseFolder) {
+                            img = en.match(/\.(png|jpg|jpeg|gif)$/i) ? en : en + ".png";
+                        }
                     }
                 } else if (line.includes(',')) {
                     const parts = line.split(',').map(p => p.trim());
-                    if (parts.length >= 2) {
+                    if (parts.length >= 3) {
+                        img = parts[0];
+                        en = parts[1];
+                        ko = parts[2];
+                    } else if (parts.length === 2) {
                         en = parts[0];
                         ko = parts[1];
+                        if (baseFolder) {
+                            img = en.match(/\.(png|jpg|jpeg|gif)$/i) ? en : en + ".png";
+                        }
+                    } else {
+                        en = parts[0];
+                        if (baseFolder) {
+                            img = en.match(/\.(png|jpg|jpeg|gif)$/i) ? en : en + ".png";
+                        }
+                    }
+                } else {
+                    en = line;
+                    if (baseFolder) {
+                        img = en.match(/\.(png|jpg|jpeg|gif)$/i) ? en : en + ".png";
                     }
                 }
 
+                // 🌟 이미지 파일명 앞에 폴더명 붙여주기 및 띄어쓰기 인코딩 🌟
+                if (img) {
+                    if (baseFolder && !img.includes('/')) {
+                        img = baseFolder + img;
+                    }
+                    // URL에서 띄어쓰기를 안전하게 인식할 수 있도록 변환해 줍니다.
+                    // encodeURI는 폴더 경로의 '/'는 살려두고 띄어쓰기만 올바르게 변환합니다.
+                    img = encodeURI(img);
+                }
+
                 if (currentMode === 'unjumble' && ko) {
-                    words.push({ type: 'jumble', en: en, ko: ko });      
-                    words.push({ type: 'translation', en: en, ko: ko }); 
+                    words.push({ type: 'jumble', img: img, en: en, ko: ko });      
+                    words.push({ type: 'translation', img: img, en: en, ko: ko }); 
                 } else {
-                    words.push({ type: 'standard', en: en, ko: ko });
+                    words.push({ type: 'standard', img: img, en: en, ko: ko });
                 }
             });
 
@@ -1233,6 +1336,7 @@
             currentBlur -= 10;
             if(currentBlur < 0) currentBlur = 0;
             document.getElementById('blur-word').style.filter = `blur(${currentBlur}px)`;
+            document.getElementById('blur-image').style.filter = `blur(${currentBlur}px)`;
         }
 
         function createUnjumbleChunk(text) {
@@ -1285,11 +1389,32 @@
                 document.getElementById('mission-text').style.display = 'none';
                 
                 const blurWord = document.getElementById('blur-word');
-                
-                blurWord.innerText = originalWord;
-                blurWord.style.display = 'block';
-                blurWord.style.filter = `blur(${currentBlur}px)`;
-                blurWord.style.color = '#0984e3'; 
+                const blurImage = document.getElementById('blur-image');
+
+                // 🌟 이미지 로드 로직 개선 (엑스박스 방지) 🌟
+                if (currentItem.img) {
+                    const tempImg = new Image();
+                    tempImg.onload = function() {
+                        blurImage.src = currentItem.img;
+                        blurImage.style.display = 'block';
+                        blurImage.style.filter = `blur(${currentBlur}px)`;
+                        blurWord.style.display = 'none';
+                    };
+                    tempImg.onerror = function() {
+                        blurImage.style.display = 'none';
+                        blurWord.innerText = originalWord;
+                        blurWord.style.display = 'block';
+                        blurWord.style.filter = `blur(${currentBlur}px)`;
+                        blurWord.style.color = '#0984e3'; 
+                    };
+                    tempImg.src = currentItem.img;
+                } else {
+                    blurImage.style.display = 'none';
+                    blurWord.innerText = originalWord;
+                    blurWord.style.display = 'block';
+                    blurWord.style.filter = `blur(${currentBlur}px)`;
+                    blurWord.style.color = '#0984e3'; 
+                }
 
                 // 힌트 모드 On/Off 적용
                 if(isHintModeOn && koreanHintText) {
@@ -1356,11 +1481,32 @@
                 missionText.style.display = 'inline-block';
                 
                 const blurWord = document.getElementById('blur-word');
+                const blurImage = document.getElementById('blur-image');
 
-                blurWord.innerText = originalWord;
-                blurWord.style.display = 'block';
-                blurWord.style.filter = `blur(0px)`; 
-                blurWord.style.color = '#e17055'; 
+                // 🌟 이미지 로드 로직 개선 (엑스박스 방지) 🌟
+                if (currentItem.img) {
+                    const tempImg = new Image();
+                    tempImg.onload = function() {
+                        blurImage.src = currentItem.img;
+                        blurImage.style.display = 'block';
+                        blurImage.style.filter = `blur(0px)`;
+                        blurWord.style.display = 'none';
+                    };
+                    tempImg.onerror = function() {
+                        blurImage.style.display = 'none';
+                        blurWord.innerText = originalWord;
+                        blurWord.style.display = 'block';
+                        blurWord.style.filter = `blur(0px)`; 
+                        blurWord.style.color = '#e17055'; 
+                    };
+                    tempImg.src = currentItem.img;
+                } else {
+                    blurImage.style.display = 'none';
+                    blurWord.innerText = originalWord;
+                    blurWord.style.display = 'block';
+                    blurWord.style.filter = `blur(0px)`; 
+                    blurWord.style.color = '#e17055'; 
+                }
                 
                 // 힌트 모드 On/Off 적용
                 if(isHintModeOn && koreanHintText) {
@@ -1596,9 +1742,14 @@
 
             // 워밍업 모드일 경우 정답 표시 방식
             if (['blur', 'mission'].includes(currentMode)) {
+                // 이미지가 정상 로드되었을 경우 선명하게 표시
+                if (document.getElementById('blur-image').style.display !== 'none') {
+                    document.getElementById('blur-image').style.filter = 'blur(0px)';
+                }
                 document.getElementById('blur-word').style.filter = 'blur(0px)';
                 document.getElementById('hint-btn').style.display = 'none';
 
+                // 정답을 보여줄 때는 사진 유무와 무관하게 무조건 영어 단어 텍스트 출력
                 document.getElementById('blur-word').innerText = currentItem.en;
                 document.getElementById('blur-word').style.display = 'block';
                 document.getElementById('blur-word').style.color = '#0984e3'; 
@@ -1622,6 +1773,7 @@
 
             document.getElementById('action-message').style.display = 'none';
             
+            // 🌟 정답 화면에서는 무조건 한글 뜻 출력 (설정 무시) 🌟
             if(koreanHintText) {
                 document.getElementById('action-korean-hint').innerText = `"${koreanHintText}"`;
                 document.getElementById('action-korean-hint').style.display = 'block';
