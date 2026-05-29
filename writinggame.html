@@ -1448,6 +1448,7 @@
                 currentState = 'writing'; 
                 const scrambleContainer = document.getElementById('scramble-container');
                 scrambleContainer.style.display = 'block';
+                scrambleContainer.innerHTML = ''; // 🌟 버그 수정: 이전 철자들이 누적되지 않도록 컨테이너를 깨끗하게 비워줍니다.
                 
                 const darkness = document.getElementById('darkness');
                 darkness.className = 'fully-dark';
