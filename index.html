@@ -568,21 +568,24 @@
             justify-content: center; align-items: center; align-content: flex-start;
         }
         .unjumble-chunk {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #f8f9fa;
+            color: white;
+            font-family: 'Fredoka One', 'Jua', sans-serif;
             font-size: clamp(1.5rem, 3vw, 2.5rem);
-            font-weight: 600;
             padding: 15px 30px; 
-            border-radius: 12px; 
+            border-radius: 16px; 
             cursor: pointer;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.2s;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 6px 0 rgba(0,0,0,0.15);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             user-select: none;
         }
         .unjumble-chunk:hover {
-            background-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
+        }
+        .unjumble-chunk:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 rgba(0,0,0,0.1);
         }
 
         /* 공통 액션 영역 (버튼 및 결과) */
@@ -674,8 +677,6 @@
                         <select id="publisher-select" onchange="loadPresetWords()">
                             <option value="ybm" selected>YBM</option>
                             <option value="donga">동아</option>
-                            <!-- 🌟 천재(함) 출판사 추가 -->
-                            <option value="cheonjae">천재(함)</option>
                         </select>
                         <select id="grade-select" onchange="updateLessonOptions()">
                             <option value="">학년 선택</option>
@@ -928,7 +929,7 @@
         }
 
         // ==========================================
-        // 🌟 단어/문장 데이터베이스 (YBM)
+        // 🌟 단어/문장 데이터베이스
         // ==========================================
         const ybmWordDatabase = {
             "3": {
@@ -949,7 +950,7 @@
                 "2": ["badminton | 배드민턴", "baseball | 야구", "basketball | 농구", "busy | 바쁜", "but | 그러나", "fix | 고치다", "lesson | 수업", "pass | 건네주다", "piano | 피아노", "soccer | 축구", "sorry | 미안한", "sound | 소리", "tennis | 테니스", "with | ~와 함께"],
                 "3": ["bed | 침대", "box | 상자", "chair | 의자", "clean | 청소하다", "desk | 책상", "find | 찾다", "hurry | 서두르다", "on | ~위에", "paper | 종이", "phone | 전화기", "some | 약간의", "start | 시작하다", "table | 탁자", "under | ~아래에", "where | 어디에", "worry | 걱정하다"],
                 "4": ["angry | 화난", "beach | 해변", "cup | 컵", "garden | 정원", "hungry | 배고픈", "inside | 안으로", "plastic | 플라스틱", "sad | 슬픈", "thirsty | 목마른", "tired | 피곤한", "tree | 나무", "try | 시도하다", "very | 매우", "watch | 조심하다"],
-                "5": ["bread | 빵", "buy | 사다", "cake | 케이크", "chocolate | 초콜릿", "enter | 들어가다", "fruit | 과일", "grape | 포도", "jam | 잼", "just | 단지", "make | 만들다", "push | 밀다", "rice | 쌀, 밥", "sure | 물론", "talk | 말하다", "together | 함께", "touch | 만지다"],
+                "5": ["bread | 빵", "buy | 사다", "cake | 케이크", "chocolate | 초콜릿", "enter | 들어가다", "fruit | 과일", "grape | 포도", "jam | 단지", "just | 단지", "make | 만들다", "push | 밀다", "rice | 쌀, 밥", "sure | 물론", "talk | 말하다", "together | 함께", "touch | 만지다"],
                 "6": ["bat | 방망이", "bike | 자전거", "black | 검은색", "bottle | 병", "cap | 모자", "fan | 부채", "forget | 잊다", "glove | 장갑", "home | 집", "homework | 숙제", "mine | 나의 것", "short | 짧은", "tomato | 토마토", "umbrella | 우산"],
                 "7": ["breakfast | 아침 식사", "dinner | 저녁 식사", "drone | 드론", "for | ~을 위한", "late | 늦은", "lunch | 점심 식사", "o’clock | ~시 정각", "ride | 타다", "school | 학교", "time | 시간", "wait | 기다리다", "wake | 깨다", "eleven | 열하나", "twelve | 열둘", "twenty | 스물", "thirty | 서른"],
                 "8": ["bake | 굽다", "computer | 컴퓨터", "draw | 그리다", "house | 집", "job | 직업", "listen | 듣다", "music | 음악", "picture | 그림", "read | 읽다", "robot | 로봇", "take | 찍다", "water | 물을 주다"],
@@ -1029,24 +1030,21 @@
                 "12": ["What will you do this weekend? | 너는 이번 주말에 무엇을 할 거니?", "I will go swimming. | 나는 수영하러 갈 거야.", "I will visit my grandparents. | 나는 조부모님 댁에 방문할 거야.", "I will read a book. | 나는 책을 읽을 거야.", "I will play soccer. | 나는 축구를 할 거야.", "I will make cookies. | 나는 쿠키를 만들 거야.", "I will go to the park. | 나는 공원에 갈 거야.", "Sounds fun. | 재미있겠네.", "Have a good time. | 좋은 시간 보내."]
             },
             "6": {
-                "1": ["What grade are you in? | 너는 몇 학년이니?", "I'm in the sixth grade. | 나는 6학년이야.", "I'm in the fifth grade. | 나는 5학년이야.", "Where is your classroom? | 네 교실은 어디에 있니?", "It's on the third floor. | 3층에 있어.", "Where is the science room? | 과학실은 어디에 있니?", "It's on the second floor. | 2층에 있어."],
-                "2": ["What do you want to be? | 너는 무엇이 되고 싶니?", "I want to be a movie director. | 나는 영화 감독이 되고 싶어.", "I want to be a scientist. | 나는 과학자가 되고 싶어.", "I want to be a cook. | 나는 요리사가 되고 싶어.", "I want to be a writer. | 나는 작가가 되고 싶어.", "Why? | 왜?", "Because I like taking pictures. | 왜냐하면 나는 사진 찍는 것을 좋아하기 때문이야."],
-                "3": ["You should wear a helmet. | 너는 헬멧을 써야 해.", "You must wear a seat belt. | 너는 반드시 안전벨트를 매야 해.", "You should cross at the crosswalk. | 너는 횡단보도로 건너야 해.", "You must not run. | 너는 뛰면 안 돼.", "Watch out! | 조심해!", "It's dangerous. | 위험해."],
-                "4": ["When is your birthday? | 네 생일은 언제니?", "It's on May 5th. | 5월 5일이야.", "When is the school festival? | 학교 축제는 언제니?", "It's on October 10th. | 10월 10일이야.", "When is the field trip? | 현장 학습은 언제니?", "It's on April 20th. | 4월 20일이야."],
-                "5": ["How often do you brush your teeth? | 넌 얼마나 자주 양치질을 하니?", "I brush my teeth three times a day. | 난 하루에 세 번 양치질을 해.", "How often do you exercise? | 넌 얼마나 자주 운동을 하니?", "I exercise twice a week. | 난 일주일에 두 번 운동을 해.", "I exercise every day. | 난 매일 운동을 해.", "That's a good habit. | 좋은 습관이구나."],
-                "6": ["Which is faster, the airplane or the train? | 비행기와 기차 중에 어느 것이 더 빠르니?", "The airplane is faster than the train. | 비행기가 기차보다 더 빨라.", "Which is heavier, the elephant or the pig? | 코끼리와 돼지 중에 어느 것이 더 무겁니?", "The elephant is heavier than the pig. | 코끼리가 돼지보다 더 무거워.", "Which is taller, the boy or the girl? | 소년과 소녀 중에 누가 더 키가 크니?", "The boy is taller than the girl. | 소년이 소녀보다 더 커."],
-                "7": ["Where is the museum? | 박물관은 어디에 있나요?", "Go straight one block and turn left. | 한 블록 곧장 가서 왼쪽으로 도세요.", "It's on your right. | 오른쪽에 있습니다.", "Where is the police station? | 경찰서는 어디에 있나요?", "Go straight two blocks and turn right. | 두 블록 곧장 가서 오른쪽으로 도세요.", "It's next to the post office. | 우체국 옆에 있습니다."],
-                "8": ["What did you do yesterday? | 넌 어제 무엇을 했니?", "I saw a movie. | 난 영화를 봤어.", "I ate pizza. | 난 피자를 먹었어.", "I had a good time. | 난 즐거운 시간을 보냈어.", "Where did you go last weekend? | 넌 지난 주말에 어디에 갔니?", "I went to the museum. | 난 박물관에 갔어."],
-                "9": ["Who invented the telephone? | 누가 전화기를 발명했니?", "Alexander Graham Bell invented it. | 알렉산더 그레이엄 벨이 그것을 발명했어.", "Who painted the Starry Night? | 누가 별이 빛나는 밤을 그렸니?", "Vincent van Gogh painted it. | 빈센트 반 고흐가 그것을 그렸어.", "Who wrote Romeo and Juliet? | 누가 로미오와 줄리엣을 썼니?", "William Shakespeare wrote it. | 윌리엄 셰익스피어가 그것을 썼어."],
-                "10": ["What is your favorite season? | 넌 어떤 계절을 가장 좋아하니?", "My favorite season is fall. | 내가 가장 좋아하는 계절은 가을이야.", "Why do you like fall? | 넌 왜 가을을 좋아하니?", "Because the weather is cool. | 왜냐하면 날씨가 시원하기 때문이야.", "Because I like beautiful leaves. | 왜냐하면 난 아름다운 나뭇잎을 좋아하기 때문이야."],
-                "11": ["How much is this shirt? | 이 셔츠는 얼마인가요?", "It's fifteen thousand won. | 15,000원입니다.", "It's too expensive. | 너무 비싸요.", "Do you have a cheaper one? | 더 싼 것이 있나요?", "Yes, this one is ten thousand won. | 네, 이것은 10,000원입니다.", "I'll take it. | 그것으로 할게요."],
-                "12": ["What will you do this winter vacation? | 이번 겨울 방학에 무엇을 할 거니?", "I will take a trip with my family. | 나는 가족과 함께 여행을 갈 거야.", "I will learn how to ski. | 나는 스키 타는 법을 배울 거야.", "I will read many books. | 나는 책을 많이 읽을 거야.", "That sounds great. | 멋지게 들리네."]
+                "1": ["club | 동아리", "floor | 층", "grade | 학년", "group | 그룹", "member | 회원", "mountain | 산", "race | 경주", "team | 팀", "win | 이기다", "first | 첫 번째의", "second | 두 번째의", "third | 세 번째의", "fourth | 네 번째의", "fifth | 다섯 번째의", "sixth | 여섯 번째의"],
+                "2": ["center | 센터", "drum | 드럼", "early | 일찍", "future | 미래", "guitar | 기타", "interest | 관심", "moon | 달", "travel | 여행하다", "week | 주"],
+                "3": ["campaign | 캠페인", "energy | 에너지", "guess | 추측하다", "hour | 시간", "light | 빛", "off | 끄다", "point | 포인트", "save | 구하다", "should | ~해야 한다", "use | 사용하다", "world | 세계"],
+                "4": ["again | 다시", "before | ~전에", "clothes | 옷", "festival | 축제", "number | 숫자", "party | 파티", "puppy | 강아지", "tail | 꼬리", "twenty-first | 스물한 번째의", "when | 언제", "January | 1월", "February | 2월", "March | 3월", "April | 4월", "May | 5월", "June | 6월", "July | 7월", "August | 8월", "September | 9월", "October | 10월", "November | 11월", "December | 12월"],
+                "5": ["brush | 빗질하다", "children | 아이들", "enough | 충분한", "habit | 습관", "hand | 손", "life | 삶", "meat | 고기", "month | 달, 개월", "often | 자주", "present | 선물", "stay | 머무르다", "twice | 두 번", "wash | 씻다"],
+                "6": ["above | ~위에", "bridge | 다리", "cool | 시원한", "gate | 문", "golden | 황금의", "heavy | 무거운", "people | 사람들", "strong | 강한", "than | ~보다", "think | 생각하다", "which | 어느 것"],
+                "7": ["airplane | 비행기", "ask | 묻다", "behind | ~뒤에", "building | 건물", "bus | 버스", "by | ~옆에", "front | 앞", "gallery | 갤러리", "hospital | 병원", "line | 선", "miss | 놓치다", "police | 경찰", "station | 역", "stop | 멈추다", "subway | 지하철"],
+                "8": ["area | 구역", "dinosaur | 공룡", "director | 감독", "end | 끝", "newspaper | 신문", "printer | 프린터", "programmer | 프로그래머", "safe | 안전한", "story | 이야기"],
+                "9": ["back | 뒤로", "brave | 용감한", "finish | 끝내다", "hero | 영웅", "invent | 발명하다", "king | 왕", "letter | 편지", "map | 지도", "nature | 자연", "rabbit | 토끼", "say | 말하다", "ship | 배", "unbelievable | 믿을 수 없는", "war | 전쟁"],
+                "10": ["answer | 대답하다", "arrive | 도착하다", "autumn | 가을", "away | 떨어져서", "because | 왜냐하면", "clear | 맑은", "coat | 코트", "full | 가득 찬", "land | 땅", "leaf | 나뭇잎", "memory | 기억", "queen | 여왕", "season | 계절", "smile | 미소", "spring | 봄"],
+                "11": ["board | 판", "boring | 지루한", "bright | 밝은", "cheap | 싼", "clever | 영리한", "condition | 상태", "course | 과정", "dangerous | 위험한", "dark | 어두운", "quiet | 조용한", "skirt | 치마", "soft | 부드러운"],
+                "12": ["afraid | 두려워하는", "bean | 콩", "call | 부르다", "carry | 나르다", "culture | 문화", "holiday | 휴일", "Internet | 인터넷", "public | 공공의", "soup | 수프", "street | 거리", "traditional | 전통적인"]
             }
         };
 
-        // ==========================================
-        // 🌟 단어/문장 데이터베이스 (동아)
-        // ==========================================
         const dongaWordDatabase = {
             "3": {
                 "1": ["hello | 안녕", "hi | 안녕", "I | 나는", "name | 이름", "meet | 만나다", "nice | 좋은", "too | 역시, 또한", "goodbye | 안녕히 가세요"],
@@ -1165,127 +1163,6 @@
             }
         };
 
-        // ==========================================
-        // 🌟 단어/문장 데이터베이스 (천재함)
-        // ==========================================
-        const cheonjaeWordDatabase = {
-            "3": {
-                "1": ["apple | 사과", "ball | 공", "cat | 고양이", "dog | 개", "egg | 달걀", "five | 다섯", "game | 게임", "hat | 모자", "hello | 안녕", "in | ~안에", "jump | 점프하다", "king | 왕", "lion | 사자", "monkey | 원숭이", "nine | 아홉", "orange | 오렌지", "pizza | 피자", "queen | 여왕", "ring | 반지", "sit | 앉다", "six | 여섯", "ten | 열", "up | 위로", "violin | 바이올린", "wind | 바람", "yellow | 노란색", "zebra | 얼룩말"],
-                "2": ["be | ~이다, 있다", "bye | 안녕(작별인사)", "fine | 잘 지내는", "how | 어떻게, 얼마나", "I | 나는", "you | 너는"],
-                "3": ["a | 하나의", "bike | 자전거", "cup | 컵", "doll | 인형", "it | 그것", "look | 보다", "nice | 멋진", "robot | 로봇", "that | 저것", "this | 이것", "what | 무엇", "yes | 네"],
-                "4": ["close | 닫다", "come | 오다", "door | 문", "down | 아래로", "here | 여기에", "okay | 알겠어", "open | 열다", "please | 부탁해", "stand | 서다", "thank | 고맙다", "the | 그", "touch | 만지다"],
-                "5": ["cow | 소", "eight | 여덟", "four | 넷", "many | 많은", "no | 아니", "one | 하나", "pig | 돼지", "right | 맞다, 오른쪽", "seven | 일곱", "three | 셋", "two | 둘"],
-                "6": ["at | ~에", "book | 책", "brush | 붓, 빗", "do | 하다", "eraser | 지우개", "great | 훌륭한", "have | 가지고 있다", "not | 아니다", "pen | 펜", "pencil | 연필", "tape | 테이프"],
-                "7": ["black | 검은색", "blue | 파란색", "color | 색깔", "flower | 꽃", "green | 초록색", "hand | 손", "now | 지금", "pink | 분홍색", "red | 빨간색", "sorry | 미안한", "use | 사용하다", "wash | 씻다", "white | 흰색"],
-                "8": ["and | 그리고", "banana | 바나나", "carrot | 당근", "chicken | 닭고기", "dad | 아빠", "good | 좋은", "juice | 주스", "like | 좋아하다", "potato | 감자", "tomato | 토마토"],
-                "9": ["big | 큰", "bird | 새", "cheese | 치즈", "elephant | 코끼리", "say | 말하다", "small | 작은", "tall | 키가 큰", "too | 너무, 또한", "tree | 나무", "very | 매우"],
-                "10": ["can | 할 수 있다", "dance | 춤추다", "go | 가다", "helmet | 헬멧", "high | 높이", "ready | 준비된", "run | 달리다", "sing | 노래하다", "skate | 스케이트 타다", "swim | 수영하다"],
-                "11": ["brother | 남자 형제", "for | ~을 위해", "grandfather | 할아버지", "grandmother | 할머니", "he | 그는", "mom | 엄마", "pretty | 예쁜", "she | 그녀는", "sister | 여자 형제", "who | 누구"],
-                "12": ["cap | 모자", "cloudy | 흐린", "coat | 코트", "jacket | 재킷", "on | ~위에", "put | 놓다", "raining | 비가 오는", "sunny | 맑은", "snowing | 눈이 오는", "there | 저기에", "wake | 깨다", "weather | 날씨"]
-            },
-            "4": {
-                "1": ["afternoon | 오후", "bag | 가방", "evening | 저녁", "everyone | 모두", "friend | 친구", "meet | 만나다", "morning | 아침", "name | 이름", "new | 새로운", "night | 밤", "to | ~로", "we | 우리는"],
-                "2": ["again | 다시", "angry | 화난", "happy | 행복한", "sad | 슬픈", "sleepy | 졸린", "some | 약간의", "thirsty | 목마른", "tired | 피곤한", "try | 시도하다", "water | 물"],
-                "3": ["careful | 조심하는", "drink | 마시다", "eat | 먹다", "enter | 들어가다", "house | 집", "kick | 차다", "line | 선", "love | 사랑하다", "over | ~너머", "push | 밀다", "talk | 말하다", "welcome | 환영하다"],
-                "4": ["bad | 나쁜", "badminton | 배드민턴", "baseball | 야구", "basketball | 농구", "busy | 바쁜", "let | ~하게 하다", "pass | 건네주다", "play | 놀다", "sick | 아픈", "soccer | 축구", "sound | 소리", "tennis | 테니스"],
-                "5": ["bread | 빵", "cream | 크림", "help | 돕다", "hot | 뜨거운", "ice | 얼음", "milk | 우유", "much | 많이", "noodles | 국수", "salad | 샐러드", "soup | 수프", "want | 원하다"],
-                "6": ["bed | 침대", "box | 상자", "bus | 버스", "chair | 의자", "desk | 책상", "fan | 선풍기", "know | 알다", "table | 탁자", "under | ~아래에", "where | 어디에"],
-                "7": ["art | 미술", "birthday | 생일", "class | 수업", "computer | 컴퓨터", "cook | 요리하다", "day | 날, 요일", "hike | 등산하다", "lunch | 점심", "party | 파티", "today | 오늘", "wait | 기다리다"],
-                "8": ["car | 자동차", "case | 상자", "comic | 만화", "hundred | 백", "idea | 아이디어", "skirt | 치마", "take | 가져가다", "thousand | 천", "toy | 장난감", "will | ~할 것이다"],
-                "9": ["bottle | 병", "brown | 갈색", "clean | 깨끗한", "find | 찾다", "gray | 회색", "notebook | 공책", "park | 공원", "shoe | 신발", "so | 그래서", "umbrella | 우산", "watch | 시계"],
-                "10": ["breakfast | 아침 식사", "dinner | 저녁 식사", "eleven | 열하나", "fun | 재미", "movie | 영화", "music | 음악", "school | 학교", "thirty | 서른", "time | 시간", "twelve | 열둘", "twenty | 스물"],
-                "11": ["cookie | 쿠키", "draw | 그리다", "homework | 숙제", "make | 만들다", "picture | 그림", "read | 읽다", "smell | 냄새를 맡다", "sure | 물론"],
-                "12": ["cool | 멋진", "doctor | 의사", "model | 모델", "nurse | 간호사", "painter | 화가", "pilot | 조종사", "teacher | 선생님", "uncle | 삼촌", "writer | 작가"]
-            },
-            "5": {
-                "1": ["about | ~에 대하여", "beautiful | 아름다운", "country | 나라", "cousin | 사촌", "from | ~출신의", "guy | 남자, 녀석", "ride | 타다", "team | 팀", "together | 함께", "well | 음, 글쎄"],
-                "2": ["album | 앨범", "button | 단추", "collect | 모으다", "cut | 자르다", "fork | 포크", "kitchen | 부엌", "late | 늦은", "map | 지도", "scissors | 가위", "spoon | 숟가락", "they | 그들은"],
-                "3": ["along | ~을 따라", "animal | 동물", "borrow | 빌리다", "bring | 가져오다", "energy | 에너지", "grow | 기르다", "just | 단지", "lake | 호수", "piano | 피아노", "problem | 문제", "see | 보다", "star | 별", "vegetable | 채소", "walk | 걷다"],
-                "4": ["airplane | 비행기", "bear | 곰", "boat | 보트", "key | 열쇠", "old | 낡은, 나이 든", "out | 밖으로", "phone | 전화기", "return | 돌려주다", "space | 우주", "textbook | 교과서", "tiger | 호랑이", "top | 꼭대기", "with | ~와 함께"],
-                "5": ["around | 주위에", "board | 게시판", "but | 그러나", "camp | 캠프", "free | 한가한", "library | 도서관", "market | 시장", "need | 필요하다", "next | 다음의", "parent | 부모님", "present | 선물", "rabbit | 토끼", "shop | 상점", "start | 시작하다", "ticket | 티켓", "tomorrow | 내일", "week | 주"],
-                "6": ["banh mi | 반미", "beach | 해변", "delicious | 맛있는", "join | 가입하다", "learn | 배우다", "live | 살다", "project | 프로젝트", "science | 과학", "sport | 스포츠", "summer | 여름", "visit | 방문하다"],
-                "7": ["chocolate | 초콜릿", "family | 가족", "festival | 축제", "grape | 포도", "last | 지난", "pick | 따다, 고르다", "sea | 바다", "watermelon | 수박", "weekend | 주말", "year | 해, 년", "yesterday | 어제"],
-                "8": ["all | 모든", "beef | 소고기", "cake | 케이크", "chip | 감자칩", "choose | 고르다", "feel | 느끼다", "fish | 생선", "fruit | 과일", "meat | 고기", "or | 또는", "sandwich | 샌드위치", "sell | 팔다", "spaghetti | 스파게티", "steak | 스테이크", "tasty | 맛있는", "would | ~할 것이다"],
-                "9": ["ahead | 앞으로", "cheap | 싼", "glass | 유리", "glove | 장갑", "only | 단지", "pants | 바지", "ribbon | 리본", "sale | 판매, 세일", "sock | 양말"],
-                "10": ["bake | 굽다", "early | 일찍", "fresh | 신선한", "get | 얻다", "home | 집", "hour | 시간", "job | 직업", "practice | 연습하다", "really | 정말로", "study | 공부하다", "tonight | 오늘 밤"],
-                "11": ["difficult | 어려운", "drone | 드론", "favorite | 가장 좋아하는", "food | 음식", "math | 수학", "speak | 말하다", "subject | 과목", "thing | 것"],
-                "12": ["act | 행동하다", "character | 캐릭터, 등장인물", "design | 디자인하다", "dream | 꿈", "future | 미래", "listen | 듣다", "people | 사람들", "place | 장소", "story | 이야기", "train | 기차", "travel | 여행하다", "video | 비디오"]
-            },
-            "6": {
-                "1": ["club | 동아리", "drum | 드럼", "first | 첫 번째의", "grade | 학년", "guitar | 기타", "hard | 어려운", "luck | 운", "second | 두 번째의", "show | 보여주다", "ski | 스키 타다", "song | 노래", "spell | 철자를 쓰다", "third | 세 번째의", "wear | 입다"],
-                "2": ["also | 또한", "bright | 밝은", "card | 카드", "clear | 맑은", "cold | 추운", "fall | 가을", "field | 들판", "little | 작은", "river | 강", "season | 계절", "sky | 하늘", "spring | 봄", "trip | 여행", "warm | 따뜻한", "winter | 겨울"],
-                "3": ["campaign | 캠페인", "earth | 지구", "off | 꺼진", "paper | 종이", "poster | 포스터", "save | 구하다, 절약하다", "shirt | 셔츠", "turn | 돌다", "twenty-one | 스물하나", "twenty-three | 스물셋", "twenty-two | 스물둘", "when | 언제", "world | 세계"],
-                "4": ["because | 왜냐하면", "belt | 띠", "birdhouse | 새집", "break | 깨다", "congratulation | 축하", "test | 시험", "why | 왜", "worry | 걱정하다", "wrong | 잘못된"],
-                "5": ["bank | 은행", "block | 블록", "hospital | 병원", "hungry | 배고픈", "left | 왼쪽", "restaurant | 식당", "restroom | 화장실", "stop | 멈추다", "store | 상점", "straight | 곧장", "town | 동네"],
-                "6": ["aunt | 이모, 고모", "daughter | 딸", "dress | 드레스", "eye | 눈", "hair | 머리카락", "long | 긴", "of | ~의", "same | 같은", "sand | 모래", "short | 짧은"],
-                "7": ["after | ~후에", "biscuit | 비스킷", "course | 과정", "laser | 레이저", "light | 빛", "number | 숫자", "soft | 부드러운", "tell | 말하다"],
-                "8": ["always | 항상", "baby | 아기", "catch | 잡다", "clock | 시계", "dribble | 드리블하다", "fast | 빠른", "giraffe | 기린", "give | 주다", "goal | 목표", "heavy | 무거운", "race | 경주", "side | 쪽", "strong | 강한", "than | ~보다", "tower | 탑", "win | 이기다"],
-                "9": ["any | 어떤", "child | 아이", "forest | 숲", "hamburger | 햄버거", "plan | 계획", "program | 프로그램", "room | 방", "stay | 머무르다", "tent | 텐트", "village | 마을", "zoo | 동물원"],
-                "10": ["almost | 거의", "die | 죽다", "enough | 충분한", "exercise | 운동", "habit | 습관", "healthy | 건강한", "life | 삶", "lot | 많음", "member | 회원", "nothing | 아무것도 없음", "often | 자주", "once | 한 번", "should | ~해야 한다", "tooth | 이빨", "twice | 두 번"],
-                "11": ["air | 공기", "boomerang | 부메랑", "clever | 영리한", "hit | 치다", "into | ~안으로", "sari | 사리(옷)"],
-                "12": ["boy | 소년", "forget | 잊다", "quiz | 퀴즈", "street | 거리", "wall | 벽", "wish | 소원"]
-            }
-        };
-
-        const cheonjaeSentenceDatabase = {
-            "3": {
-                "1": ["Hello. | 안녕.", "Hi. | 안녕."],
-                "2": ["Hi. | 안녕.", "Hello. | 안녕.", "Bye. | 잘 가.", "I’m Momo. | 나는 모모야.", "How are you? | 넌 기분이 어때?", "I’m fine. | 나는 잘 지내."],
-                "3": ["What’s this? | 이것은 무엇이니?", "What's that? | 저것은 무엇이니?", "It’s a bike. | 그것은 자전거야.", "Nice! | 멋져!"],
-                "4": ["Sit down, please. | 앉아 주렴.", "Okay. | 알겠어.", "Thank you. | 고마워."],
-                "5": ["How many cows? | 소가 몇 마리니?", "Three cows. | 세 마리야.", "That’s right. | 맞아."],
-                "6": ["Do you have a pencil? | 너는 연필이 있니?", "Yes, I do. | 응, 있어.", "No, I don‘t. | 아니, 없어.", "I have a brush. | 나는 붓을 가지고 있어.", "I don’t have a brush. | 나는 붓을 가지고 있지 않아."],
-                "7": ["What color is it? | 무슨 색깔이니?", "It’s pink. | 분홍색이야.", "I’m sorry. | 미안해.", "That’s okay. | 괜찮아."],
-                "8": ["Do you like apples? | 너는 사과를 좋아하니?", "Yes, I do. | 응, 좋아해.", "No, I don’t. | 아니, 안 좋아해.", "I like carrots. | 나는 당근을 좋아해.", "I don’t like carrots. | 나는 당근을 안 좋아해."],
-                "9": ["It’s big. | 크다.", "Is it a bird? | 그것은 새니?", "Yes, it is. | 응, 그래.", "No, it isn’t. | 아니, 그렇지 않아."],
-                "10": ["Can you skate? | 너는 스케이트를 탈 수 있니?", "Yes I can. | 응, 할 수 있어.", "No, I can’t. | 아니, 못 해.", "I can dance. | 나는 춤출 수 있어.", "I can’t dance. | 나는 춤출 수 없어."],
-                "11": ["Who’s he? | 그는 누구니?", "Who's she? | 그녀는 누구니?", "He’s my dad. | 그는 우리 아빠야.", "She’s my sister. | 그녀는 내 여동생이야.", "He’s tall. | 그는 키가 커."],
-                "12": ["How’s the weather? | 날씨가 어때?", "It’s snowing. | 눈이 와.", "Put on your coat. | 코트를 입어라."]
-            },
-            "4": {
-                "1": ["What’s your name? | 네 이름은 무엇이니?", "My name is Amy. | 내 이름은 에이미야.", "Nice to meet you. | 만나서 반가워.", "Nice you meet you, too. | 나도 만나서 반가워.", "Good morning. | 좋은 아침."],
-                "2": ["Are you happy? | 너는 행복하니?", "Yes, I am. | 응, 그래.", "No, I’m not. | 아니, 그렇지 않아.", "I’m thirsty. | 나는 목이 말라."],
-                "3": ["Don’t sit here. | 여기 앉지 마세요.", "Okay. | 알겠어요.", "Be careful. | 조심하세요."],
-                "4": ["Let’s play baseball. | 야구하자.", "Sounds good. | 좋아.", "Sorry, I can’t. | 미안하지만 못 해.", "That’s too bad. | 그것참 안됐구나."],
-                "5": ["What do you want? | 넌 무엇을 원하니?", "I want chicken. | 난 치킨을 원해.", "Help yourself. | 마음껏 먹어."],
-                "6": ["Where’s my cap? | 내 모자는 어디 있니?", "It’s on the table. | 탁자 위에 있어.", "I don’t know. | 난 모르겠어."],
-                "7": ["What day is it today? | 오늘 무슨 요일이니?", "It’s Wednesday. | 수요일이야.", "I have a computer class. | 나는 컴퓨터 수업이 있어."],
-                "8": ["How much is it? | 얼마예요?", "It’s seven hundred won. | 700원이에요.", "I’ll take it. | 그것으로 살게요."],
-                "9": ["Is this your bag? | 이것이 네 가방이니?", "Yes, it is. | 응, 그래.", "No, it isn’t. | 아니, 그렇지 않아.", "My cap is gray. | 내 모자는 회색이야."],
-                "10": ["What time is it? | 몇 시니?", "It’s ten thirty. | 10시 30분이야.", "It’s time for breakfast. | 아침 먹을 시간이야."],
-                "11": ["What are you doing? | 뭐 하고 있니?", "I’m doing homework. | 나는 숙제를 하고 있어.", "Can I help you? | 내가 널 도와줄까?", "Sure. | 물론이지."],
-                "12": ["What do you do? | 직업이 무엇인가요?", "I’m a doctor. | 나는 의사야.", "What does he do? | 그의 직업은 무엇이니?", "What does she do? | 그녀의 직업은 무엇이니?", "He’s a model. | 그는 모델이야.", "She's a model. | 그녀는 모델이야."]
-            },
-            "5": {
-                "1": ["Where are you from? | 너는 어느 나라에서 왔니?", "I’m from Canada. | 나는 캐나다에서 왔어.", "This is my friend, Uju. | 이쪽은 내 친구 우주야.", "Nice to meet you. | 만나서 반가워."],
-                "2": ["What are these? | 이것들은 무엇이니?", "What are those? | 저것들은 무엇이니?", "They’re buttons. | 그것들은 단추야.", "How nice! | 멋지다!"],
-                "3": ["Can I take pictures? | 제가 사진을 찍어도 될까요?", "Yes, you can. | 네, 찍으셔도 돼요.", "No, you can’t. | 아니요, 찍으시면 안 돼요.", "Thank you. | 감사합니다.", "No problem. | 천만에요."],
-                "4": ["Whose pen is this? | 이것은 누구의 펜이니?", "Whose pen is that? | 저것은 누구의 펜이니?", "It’s Amy’s. | 에이미의 것이야.", "It's mine. | 내 것이야.", "No, it’s Uju’s textbook. | 아니, 그것은 우주의 교과서야."],
-                "5": ["Let’s go shopping. | 쇼핑하러 가자.", "Sounds good. | 좋아.", "Sorry, but I’m busy. | 미안하지만 난 바빠.", "How about at two twenty? | 2시 20분은 어때?"],
-                "6": ["What will you do this summer? | 넌 이번 여름에 무엇을 할 거니?", "I’ll join a science camp. | 난 과학 캠프에 참가할 거야.", "Have a good time. | 좋은 시간 보내."],
-                "7": ["What did you this summer? | 넌 이번 여름에 무엇을 했니?", "I swam in the sea. | 난 바다에서 수영했어.", "How was your weekend? | 주말은 어땠어?", "It was good. | 좋았어.", "It was great. | 정말 좋았어."],
-                "8": ["What would you like? | 무엇을 드시겠어요?", "I’d like a fruit salad. | 과일 샐러드로 할게요.", "Do you want some more? | 좀 더 원하시나요?", "Yes, please. | 네, 부탁해요.", "No, thanks. | 아니요, 괜찮습니다."],
-                "9": ["How much are the pants? | 이 바지는 얼마인가요?", "They’re twenty thousand won. | 20,000원입니다.", "What color do you want? | 무슨 색을 원하시나요?", "I want red, please. | 빨간색으로 주세요."],
-                "10": ["What time do you get up? | 넌 몇 시에 일어나니?", "I get up at 8. | 난 8시에 일어나.", "Really? | 정말?"],
-                "11": ["What’s your favorite subject? | 네가 가장 좋아하는 과목은 무엇이니?", "My favorite subject is math. | 내가 가장 좋아하는 과목은 수학이야.", "I’m good at drawing pictures. | 나는 그림을 잘 그려."],
-                "12": ["What do you want to be? | 너는 장래 희망이 무엇이니?", "I want to be a scientist. | 나는 과학자가 되고 싶어.", "I like doing science projects. | 나는 과학 프로젝트를 하는 것을 좋아해."]
-            },
-            "6": {
-                "1": ["What grade are you in? | 너는 몇 학년이니?", "I’m in the sixth grade. | 나는 6학년이야.", "How do you spell your name? | 네 이름 철자가 어떻게 되니?", "L-I-N-H P-H-A-N. | L-I-N-H P-H-A-N이야."],
-                "2": ["What season do you like? | 너는 어떤 계절을 좋아하니?", "I like spring. I can see beautiful flowers. | 나는 봄을 좋아해. 아름다운 꽃들을 볼 수 있거든.", "Good job! | 잘했어!"],
-                "3": ["When is your birthday? | 네 생일은 언제니?", "It’s on May 7th. | 5월 7일이야.", "I can’t wait! | 정말 기대돼!"],
-                "4": ["Why are you happy? | 넌 왜 행복하니?", "Because I got a black belt. | 검은띠를 땄기 때문이야.", "Don’t worry. | 걱정하지 마."],
-                "5": ["Where is ABC Library? | ABC 도서관은 어디 있나요?", "Go straight one block and turn right at Nuri bank. | 한 블록 직진해서 누리 은행에서 오른쪽으로 도세요.", "It’s next to the bank. | 은행 옆에 있습니다."],
-                "6": ["What does he look like? | 그는 어떻게 생겼니?", "What does she look like? | 그녀는 어떻게 생겼니?", "He has blue eyes. | 그는 파란색 눈을 가졌어.", "She has blue eyes. | 그녀는 파란색 눈을 가졌어.", "He is wearing a yellow shirt and blue pants. | 그는 노란 셔츠와 파란 바지를 입고 있어.", "She is wearing a yellow shirt and blue pants. | 그녀는 노란 셔츠와 파란 바지를 입고 있어."],
-                "7": ["Can you come to the movie festival? | 너는 영화제에 올 수 있니?", "Of course. | 당연하지.", "Sorry, but I can’t. | 미안하지만 갈 수 없어.", "Come to the sports park at 10. | 스포츠 공원으로 10시에 와."],
-                "8": ["It’s taller than the tree. | 그것은 나무보다 더 크다.", "That’s not right. | 그것은 맞지 않아."],
-                "9": ["What are you going to do this weekend? | 넌 이번 주말에 무엇을 할 예정이니?", "I’m going to stay home. | 난 집에 머무를 거야.", "That’s a good idea. | 좋은 생각이구나."],
-                "10": ["How often do you eat vegetables? | 너는 채소를 얼마나 자주 먹니?", "Once a day. | 하루에 한 번.", "Good for you. | 참 잘하는구나."],
-                "11": ["Do you know anything about Tuho? | 넌 투호에 대해 알고 있는 게 있니?", "Yes, I do. It’s a Korean game. | 응, 알아. 그것은 한국의 게임이야.", "No, I don’t. | 아니, 몰라.", "I have no idea. | 나는 전혀 모르겠어."],
-                "12": ["Did you paint the wall? | 네가 벽을 칠했니?", "Yes, I did. | 응, 내가 칠했어.", "No, I didn’t. | 아니, 칠하지 않았어.", "Hana won the quiz. | 하나가 퀴즈에서 우승했어."]
-            }
-        };
-
         function updateLessonOptions() {
             const grade = document.getElementById('grade-select').value;
             const lessonSelect = document.getElementById('lesson-select');
@@ -1349,10 +1226,7 @@
             if (!grade || !lesson) return;
 
             const modeLabel = dataType === 'word' ? '단어' : '문장';
-            let pubLabel = 'YBM';
-            if (publisher === 'donga') pubLabel = '동아';
-            if (publisher === 'cheonjae') pubLabel = '천재(함)';
-
+            const pubLabel = publisher === 'ybm' ? 'YBM' : '동아';
             document.getElementById('lesson-info').value = `${pubLabel} ${grade}학년 Lesson ${lesson} (${modeLabel})`;
 
             let presetWords = [];
@@ -1367,12 +1241,6 @@
                     presetWords = dongaWordDatabase[grade]?.[lesson] || [];
                 } else {
                     presetWords = dongaSentenceDatabase[grade]?.[lesson] || [];
-                }
-            } else if (publisher === 'cheonjae') { // 🌟 천재(함) 출판사 로직
-                if (dataType === 'word') {
-                    presetWords = cheonjaeWordDatabase[grade]?.[lesson] || [];
-                } else {
-                    presetWords = cheonjaeSentenceDatabase[grade]?.[lesson] || [];
                 }
             }
             
@@ -1494,10 +1362,13 @@
             }
         }
 
-        function createUnjumbleChunk(text) {
+        function createUnjumbleChunk(text, index) {
+            const pastelColors = ['#ff9ff3', '#feca57', '#48dbfb', '#1dd1a1', '#ff6b6b', '#a29bfe'];
             const btn = document.createElement('div');
             btn.className = 'unjumble-chunk';
             btn.innerText = text;
+            btn.style.backgroundColor = pastelColors[index % pastelColors.length];
+            
             btn.onclick = function() {
                 if (btn.parentElement.id === 'unjumble-pool-area') {
                     document.getElementById('unjumble-answer-area').appendChild(btn);
@@ -1536,7 +1407,11 @@
             document.getElementById('unjumble-pool-area').innerHTML = '';
 
             document.getElementById('blur-container').style.display = 'none';
-            document.getElementById('eraser-container').style.display = 'none';
+            
+            // 🌟 지우개 배틀 컨테이너 초기화 (버그 수정됨) 🌟
+            const eraserContainer = document.getElementById('eraser-container');
+            eraserContainer.style.display = 'none';
+            eraserContainer.innerHTML = '';
             
             const memoryContainer = document.getElementById('memory-container');
             memoryContainer.style.display = 'none';
@@ -1560,6 +1435,9 @@
                 currentState = 'playing';
                 document.getElementById('progress-display').style.display = 'none';
                 
+                // 🌟 카드를 즉시 보여주지 않음 (안내 메시지 후 표시하기 위함)
+                // memoryContainer.style.display = 'grid'; 
+
                 let pairCount = Math.min(words.length, 10); 
                 let totalCards = pairCount * 2;
                 
@@ -1780,7 +1658,6 @@
                 currentState = 'playing'; 
                 document.getElementById('progress-display').style.display = 'none'; 
                 
-                const eraserContainer = document.getElementById('eraser-container');
                 eraserContainer.style.display = 'flex';
                 
                 let cardItems = [];
@@ -1878,8 +1755,8 @@
                             attempts++;
                         }
                     }
-                    shuffledChunks.forEach(text => {
-                        poolArea.appendChild(createUnjumbleChunk(text));
+                    shuffledChunks.forEach((text, i) => {
+                        poolArea.appendChild(createUnjumbleChunk(text, i));
                     });
                 } 
                 else if (currentItem.type === 'translation') {
@@ -2157,7 +2034,11 @@
             
             document.getElementById('unjumble-container').style.display = 'none';
             document.getElementById('blur-container').style.display = 'none';
+            
+            // 🌟 종료 시에도 지우개 컨테이너 초기화
             document.getElementById('eraser-container').style.display = 'none';
+            document.getElementById('eraser-container').innerHTML = '';
+            
             document.getElementById('memory-container').style.display = 'none';
             document.getElementById('memory-container').innerHTML = '';
             document.getElementById('flashlight-overlay').style.opacity = '0';
