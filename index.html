@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 링크 공유 시 미리보기(Open Graph) 제목 및 설명 설정 -->
     <title>오늘의 교과서 영단어/문장</title>
     <meta property="og:title" content="오늘의 교과서 영단어/문장">
     <meta property="og:description" content="교과서 영단어와 문장을 재미있는 게임으로 학습해보세요!">
@@ -17,7 +16,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa; /* 깔끔하고 부드러운 라이트 그레이 배경 */
+            background-color: #f8f9fa;
             font-family: 'Pretendard', sans-serif;
             overflow: hidden;
             display: flex;
@@ -27,7 +26,7 @@
             color: #212529; 
         }
 
-        /* ----- 커스텀 모달 (경고/확인창) ----- */
+        /* ----- 커스텀 모달 (경고/확인/입력창) ----- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -45,11 +44,13 @@
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             max-width: 400px;
+            width: 90%;
             border: 1px solid #e9ecef;
+            box-sizing: border-box;
         }
         .modal-box p {
             font-size: 1.2rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #343a40;
             font-weight: 600;
             white-space: pre-wrap;
@@ -83,8 +84,23 @@
             background: #e9ecef;
             box-shadow: 0 6px 12px rgba(0,0,0,0.08);
         }
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+        .modal-input:focus {
+            outline: none;
+            border-color: #339af0;
+            box-shadow: 0 0 0 3px rgba(51, 154, 240, 0.1);
+        }
 
-        /* ----- 설정 화면 (대시보드 UI) - 가로 와이드 레이아웃 ----- */
+        /* ----- 설정 화면 (대시보드 UI) ----- */
         #setup-screen {
             background-color: #ffffff; 
             padding: 40px 50px;
@@ -92,7 +108,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             z-index: 10;
             width: 90%;
-            max-width: 1100px; /* 가로로 넓게 설정 */
+            max-width: 1100px;
             max-height: 90vh;
             overflow-y: auto;
             border: 1px solid #dee2e6;
@@ -111,7 +127,6 @@
             letter-spacing: -0.5px;
         }
 
-        /* 2단 그리드 레이아웃 래퍼 */
         .setup-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -171,7 +186,6 @@
             line-height: 1.4;
         }
 
-        /* 카드형 라디오 버튼 디자인 */
         .mode-selection {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -194,35 +208,11 @@
             flex-direction: column;
             justify-content: center;
         }
-
-        .mode-label input[type="radio"] {
-            display: none;
-        }
-
-        .mode-label:hover {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #dfe6e9;
-        }
-
-        /* 🌟 비활성화된 게임 모드 스타일 🌟 */
-        .mode-label.disabled-mode {
-            opacity: 0.4;
-            pointer-events: none;
-            background-color: #f1f3f5;
-            border-color: #dee2e6;
-            filter: grayscale(100%);
-        }
-
-        /* 선택된 게임 모드 스타일 */
-        .mode-label:has(input[type="radio"]:checked) {
-            border-color: #339af0;
-            background-color: #e7f5ff;
-            box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
-            color: #1864ab;
-        }
-        .mode-label:has(input[type="radio"]:checked) .mode-title {
-            color: #1864ab;
-        }
+        .mode-label input[type="radio"] { display: none; }
+        .mode-label:hover { transform: translateY(2px); box-shadow: 0 2px 0 #dfe6e9; }
+        .mode-label.disabled-mode { opacity: 0.4; pointer-events: none; background-color: #f1f3f5; border-color: #dee2e6; filter: grayscale(100%); }
+        .mode-label:has(input[type="radio"]:checked) { border-color: #339af0; background-color: #e7f5ff; box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2); color: #1864ab; }
+        .mode-label:has(input[type="radio"]:checked) .mode-title { color: #1864ab; }
 
         .mode-title {
             display: block;
@@ -232,13 +222,8 @@
             color: #343a40;
             transition: color 0.2s ease;
         }
-        
-        .mode-desc {
-            font-size: 0.85rem;
-            color: #868e96;
-        }
+        .mode-desc { font-size: 0.85rem; color: #868e96; }
 
-        /* 게임 시작 버튼 */
         button.start-btn {
             background-color: #339af0;
             color: #ffffff;
@@ -256,13 +241,8 @@
             box-shadow: 0 8px 16px rgba(51, 154, 240, 0.2);
             align-self: center;
         }
-        button.start-btn:hover {
-            transform: translateY(-2px);
-            background-color: #228be6;
-            box-shadow: 0 10px 20px rgba(51, 154, 240, 0.3);
-        }
+        button.start-btn:hover { transform: translateY(-2px); background-color: #228be6; box-shadow: 0 10px 20px rgba(51, 154, 240, 0.3); }
 
-        /* 🌟 모바일 미디어 쿼리 (1단 레이아웃 전환) 🌟 */
         @media (max-width: 850px) {
             .setup-grid { grid-template-columns: 1fr; gap: 0; }
             #setup-screen { padding: 30px 20px; max-height: 85vh; width: 95%;}
@@ -273,320 +253,56 @@
         }
 
         /* ----- 게임 화면 (Game Screen) ----- */
-        #game-screen {
-            display: none;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            background-color: #212529; /* 전문적인 다크 테마 배경 */
-            color: #f8f9fa;
-        }
-
-        /* 상단 상태바 */
-        #top-bar {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            padding: 0 40px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            z-index: 100;
-            font-size: 1.2rem;
-            font-weight: 600;
-            pointer-events: none;
-        }
+        #game-screen { display: none; width: 100vw; height: 100vh; position: relative; background-color: #212529; color: #f8f9fa; }
+        #top-bar { position: absolute; top: 20px; left: 0; width: 100%; padding: 0 40px; box-sizing: border-box; display: flex; justify-content: space-between; z-index: 100; font-size: 1.2rem; font-weight: 600; pointer-events: none; }
         #top-bar > div { pointer-events: auto; }
-        
-        #lesson-info-display, #progress-display {
-            padding: 8px 24px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+        #lesson-info-display, #progress-display { padding: 8px 24px; border-radius: 50px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .quit-btn { background-color: rgba(250, 82, 82, 0.1); color: #fa5252; font-family: 'Pretendard', sans-serif; font-weight: 600; font-size: 1rem; padding: 8px 20px; border: 1px solid rgba(250, 82, 82, 0.3); border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+        .quit-btn:hover { background-color: #fa5252; color: white; }
 
-        .quit-btn {
-            background-color: rgba(250, 82, 82, 0.1);
-            color: #fa5252;
-            font-family: 'Pretendard', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 8px 20px;
-            border: 1px solid rgba(250, 82, 82, 0.3);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .quit-btn:hover {
-            background-color: #fa5252;
-            color: white;
-        }
-
-        /* ----- 공용 컨테이너 ----- */
-        .game-container {
-            display: none;
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            text-align: center;
-            z-index: 5;
-        }
+        .game-container { display: none; position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 90%; text-align: center; z-index: 5; }
 
         /* Blur & Mission */
-        #mission-text {
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: #ff8787;
-            margin-bottom: 30px;
-            font-weight: 800;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px 40px;
-            border-radius: 20px;
-            display: inline-block;
-            border: 2px solid rgba(255, 135, 135, 0.3);
-            animation: pulse 2s infinite ease-in-out;
-        }
+        #mission-text { font-size: clamp(2rem, 4vw, 3rem); color: #ff8787; margin-bottom: 30px; font-weight: 800; background: rgba(255, 255, 255, 0.05); padding: 15px 40px; border-radius: 20px; display: inline-block; border: 2px solid rgba(255, 135, 135, 0.3); animation: pulse 2s infinite ease-in-out; }
+        #blur-word { font-size: clamp(4rem, 10vw, 8rem); font-weight: 800; color: #f8f9fa; word-break: keep-all; letter-spacing: 2px; }
+        #blur-ko { font-size: clamp(2rem, 5vw, 4rem); color: #adb5bd; margin-top: 20px; font-weight: 600; }
 
-        #blur-word {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 800;
-            color: #f8f9fa;
-            word-break: keep-all;
-            letter-spacing: 2px;
-        }
-        #blur-ko {
-            font-size: clamp(2rem, 5vw, 4rem);
-            color: #adb5bd;
-            margin-top: 20px;
-            font-weight: 600;
-        }
-
-        /* 지우개 배틀 (특수하게 둥글고 귀여운 파스텔 젤리 스타일) */
-        #eraser-container {
-            display: none;
-            position: absolute;
-            top: 100px;
-            left: 5%;
-            width: 90%;
-            height: calc(100vh - 120px);
-            overflow-y: auto;
-            flex-wrap: wrap;
-            gap: 20px;
-            align-content: flex-start;
-            justify-content: center;
-            padding-bottom: 40px;
-            z-index: 5;
-        }
-        .eraser-card {
-            background-color: #ff9ff3;
-            color: white;
-            font-family: 'Fredoka One', 'Jua', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            padding: 20px 40px;
-            border-radius: 20px;
-            cursor: pointer;
-            box-shadow: 0 8px 0 rgba(0,0,0,0.15);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            user-select: none;
-            text-align: center;
-            border: 3px solid rgba(255,255,255,0.4);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        .eraser-card:active {
-            transform: translateY(8px);
-            box-shadow: 0 0 0 rgba(0,0,0,0.1);
-        }
-        .eraser-card.erased {
-            opacity: 0;
-            transform: scale(0.1) rotate(45deg);
-            pointer-events: none;
-        }
+        /* 지우개 배틀 */
+        #eraser-container { display: none; position: absolute; top: 100px; left: 5%; width: 90%; height: calc(100vh - 120px); overflow-y: auto; flex-wrap: wrap; gap: 20px; align-content: flex-start; justify-content: center; padding-bottom: 40px; z-index: 5; }
+        .eraser-card { background-color: #ff9ff3; color: white; font-family: 'Fredoka One', 'Jua', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); padding: 20px 40px; border-radius: 20px; cursor: pointer; box-shadow: 0 8px 0 rgba(0,0,0,0.15); transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); user-select: none; text-align: center; border: 3px solid rgba(255,255,255,0.4); text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .eraser-card:active { transform: translateY(8px); box-shadow: 0 0 0 rgba(0,0,0,0.1); }
+        .eraser-card.erased { opacity: 0; transform: scale(0.1) rotate(45deg); pointer-events: none; }
 
         /* Memory */
-        #memory-container {
-            display: none;
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 1000px;
-            height: 75vh;
-            gap: 15px;
-            grid-auto-rows: 1fr;
-            perspective: 1000px;
-            z-index: 5;
-        }
-        .memory-card {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        .memory-card-inner {
-            width: 100%;
-            height: 100%;
-            position: relative; 
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform: rotateY(0deg); 
-        }
-        .memory-card.flipped .memory-card-inner {
-            transform: rotateY(180deg);
-        }
-        .memory-card-front, .memory-card-back {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 16px;
-            text-align: center;
-            box-sizing: border-box;
-            padding: 10px;
-            word-break: keep-all;
-            font-weight: 700;
-        }
-        .memory-card-front {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #adb5bd;
-            font-size: clamp(2rem, 5vw, 4rem);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .memory-card-back {
-            background-color: #f8f9fa;
-            color: #212529;
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            transform: rotateY(180deg);
-            border: 2px solid #339af0;
-        }
-        .memory-card.matched .memory-card-inner {
-            opacity: 1; 
-        }
-        .memory-card.matched .memory-card-back {
-            background-color: #eebefa; 
-            color: #5f3dc4; 
-            border: 2px solid #cc5de8;
-        }
+        #memory-container { display: none; position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 1000px; height: 75vh; gap: 15px; grid-auto-rows: 1fr; perspective: 1000px; z-index: 5; }
+        .memory-card { position: relative; width: 100%; height: 100%; cursor: pointer; }
+        .memory-card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform: rotateY(0deg); }
+        .memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+        .memory-card-front, .memory-card-back { width: 100%; height: 100%; position: absolute; top: 0; left: 0; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; border-radius: 16px; text-align: center; box-sizing: border-box; padding: 10px; word-break: keep-all; font-weight: 700; }
+        .memory-card-front { background-color: rgba(255, 255, 255, 0.05); color: #adb5bd; font-size: clamp(2rem, 5vw, 4rem); border: 1px solid rgba(255,255,255,0.1); }
+        .memory-card-back { background-color: #f8f9fa; color: #212529; font-size: clamp(1.2rem, 3vw, 2rem); transform: rotateY(180deg); border: 2px solid #339af0; }
+        .memory-card.matched .memory-card-inner { opacity: 1; }
+        .memory-card.matched .memory-card-back { background-color: #eebefa; color: #5f3dc4; border: 2px solid #cc5de8; }
 
         /* Flashlight */
-        #flashlight-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%) rotate(-10deg);
-            width: 800px;
-            height: 800px;
-            mix-blend-mode: screen; 
-            opacity: 0;
-            z-index: 3;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        #word-display {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(4rem, 8vw, 8rem);
-            font-weight: 800;
-            z-index: 1;
-            text-align: center;
-            letter-spacing: 2px;
-            width: 100%;
-            word-wrap: break-word;
-            padding: 0 20px;
-            box-sizing: border-box;
-            color: #f8f9fa;
-        }
-        #darkness {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 2; transition: background 0.3s ease;
-        }
+        #flashlight-overlay { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%) rotate(-10deg); width: 800px; height: 800px; mix-blend-mode: screen; opacity: 0; z-index: 3; pointer-events: none; transition: opacity 0.3s ease; }
+        #word-display { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(4rem, 8vw, 8rem); font-weight: 800; z-index: 1; text-align: center; letter-spacing: 2px; width: 100%; word-wrap: break-word; padding: 0 20px; box-sizing: border-box; color: #f8f9fa; }
+        #darkness { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2; transition: background 0.3s ease; }
         .spotlight-on { background: radial-gradient(circle at 50% 50%, transparent 350px, rgba(0,0,0,0.95) 600px) !important; }
         .fully-dark { background: rgba(0,0,0,0.98) !important; }
 
         /* Scramble */
-        #scramble-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 4;
-            display: none;
-        }
-        
-        .scattered-letter {
-            font-family: 'Fredoka One', 'Jua', cursive;
-            font-size: clamp(4rem, 8vw, 7rem);
-            font-weight: 800;
-            color: #69db7c; 
-            text-shadow: 0 0 20px rgba(105, 219, 124, 0.4);
-            padding: 20px; 
-            position: absolute;
-            display: inline-block;
-            transition: transform 0.2s;
-            cursor: grab;
-            user-select: none;
-            touch-action: none;
-        }
-
-        .scattered-letter.dragging {
-            cursor: grabbing;
-            transform: scale(1.1) !important;
-            z-index: 100;
-            transition: none;
-        }
+        #scramble-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4; display: none; }
+        .scattered-letter { font-family: 'Fredoka One', 'Jua', cursive; font-size: clamp(4rem, 8vw, 7rem); font-weight: 800; color: #69db7c; text-shadow: 0 0 20px rgba(105, 219, 124, 0.4); padding: 20px; position: absolute; display: inline-block; transition: transform 0.2s; cursor: grab; user-select: none; touch-action: none; }
+        .scattered-letter.dragging { cursor: grabbing; transform: scale(1.1) !important; z-index: 100; transition: none; }
 
         /* Unjumble */
-        #unjumble-container {
-            position: absolute;
-            top: 15%;
-            left: 5%;
-            width: 90%;
-            height: 70%;
-            z-index: 4;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-        #unjumble-answer-area {
-            display: flex; flex-wrap: wrap; gap: 15px; min-height: 100px; width: 90%;
-            justify-content: center; align-items: center; align-content: flex-start;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1); padding-bottom: 30px;
-        }
-        #unjumble-pool-area {
-            display: flex; flex-wrap: wrap; gap: 15px; width: 90%;
-            justify-content: center; align-items: center; align-content: flex-start;
-        }
-        .unjumble-chunk {
-            color: white;
-            font-family: 'Fredoka One', 'Jua', sans-serif;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            padding: 15px 30px; 
-            border-radius: 16px; 
-            cursor: pointer;
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 6px 0 rgba(0,0,0,0.15);
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            user-select: none;
-        }
-        .unjumble-chunk:hover {
-            transform: translateY(-2px);
-        }
-        .unjumble-chunk:active {
-            transform: translateY(6px);
-            box-shadow: 0 0 0 rgba(0,0,0,0.1);
-        }
+        #unjumble-container { position: absolute; top: 15%; left: 5%; width: 90%; height: 70%; z-index: 4; display: none; flex-direction: column; align-items: center; gap: 40px; }
+        #unjumble-answer-area { display: flex; flex-wrap: wrap; gap: 15px; min-height: 100px; width: 90%; justify-content: center; align-items: center; align-content: flex-start; border-bottom: 2px solid rgba(255, 255, 255, 0.1); padding-bottom: 30px; }
+        #unjumble-pool-area { display: flex; flex-wrap: wrap; gap: 15px; width: 90%; justify-content: center; align-items: center; align-content: flex-start; }
+        .unjumble-chunk { color: white; font-family: 'Fredoka One', 'Jua', sans-serif; font-size: clamp(1.5rem, 3vw, 2.5rem); padding: 15px 30px; border-radius: 16px; cursor: pointer; border: 3px solid rgba(255, 255, 255, 0.4); box-shadow: 0 6px 0 rgba(0,0,0,0.15); text-shadow: 1px 1px 3px rgba(0,0,0,0.2); transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55); user-select: none; }
+        .unjumble-chunk:hover { transform: translateY(-2px); }
+        .unjumble-chunk:active { transform: translateY(6px); box-shadow: 0 0 0 rgba(0,0,0,0.1); }
 
         /* 공통 액션 영역 (버튼 및 결과) */
         #action-container { display: none; position: absolute; text-align: center; z-index: 10; width: 100%; }
@@ -599,36 +315,20 @@
         .action-translation #answer-display { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(2.5rem, 5vw, 5rem) !important; margin: 0; width: 100%; }
         .action-translation #btn-group { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 100%; margin: 0; }
 
-        #action-message {
-            font-size: 2rem; color: #fcc419; margin: 0 0 20px 0; font-weight: 800; letter-spacing: 1px;
-        }
+        #action-message { font-size: 2rem; color: #fcc419; margin: 0 0 20px 0; font-weight: 800; letter-spacing: 1px; }
         .action-bottom #action-message { font-size: 1.5rem; margin-bottom: 15px; color: #adb5bd; font-weight: 500;}
-        
-        #action-korean-hint {
-            font-size: clamp(2rem, 5vw, 4rem); color: #dee2e6; font-weight: 600;
-            margin-bottom: 30px; word-break: keep-all; padding: 0 20px; display: none;
-        }
-        #answer-display {
-            display: none; font-size: clamp(3rem, 6vw, 6rem); font-weight: 800; color: #74c0fc;
-            margin-bottom: 40px; word-break: keep-all; padding: 0 20px; text-align: center; width: 100%; justify-content: center;
-        }
+        #action-korean-hint { font-size: clamp(2rem, 5vw, 4rem); color: #dee2e6; font-weight: 600; margin-bottom: 30px; word-break: keep-all; padding: 0 20px; display: none; }
+        #answer-display { display: none; font-size: clamp(3rem, 6vw, 6rem); font-weight: 800; color: #74c0fc; margin-bottom: 40px; word-break: keep-all; padding: 0 20px; text-align: center; width: 100%; justify-content: center; }
 
         @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
 
         /* 컨트롤 버튼들 */
-        button.action-btn {
-            background-color: rgba(255,255,255,0.1); color: #f8f9fa; font-family: 'Pretendard', sans-serif; font-size: 1.2rem; font-weight: 600;
-            padding: 14px 35px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; transition: all 0.2s;
-            backdrop-filter: blur(5px);
-        }
+        button.action-btn { background-color: rgba(255,255,255,0.1); color: #f8f9fa; font-family: 'Pretendard', sans-serif; font-size: 1.2rem; font-weight: 600; padding: 14px 35px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(5px); }
         button.action-btn:hover { background-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
-        
         button.action-btn.hint-btn { border-color: #fcc419; color: #fcc419; }
         button.action-btn.hint-btn:hover { background-color: rgba(252, 196, 25, 0.1); }
-        
         button.action-btn.next-btn { background-color: #339af0; border: none; }
         button.action-btn.next-btn:hover { background-color: #228be6; }
-        
         button.action-btn.end-btn { background-color: #fa5252; border: none; }
         
         #btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -639,15 +339,25 @@
     <div id="custom-alert" class="modal-overlay">
         <div class="modal-box">
             <p id="alert-msg">단어를 입력해주세요!</p>
-            <button class="modal-btn" onclick="closeAlert()">확인</button>
+            <button class="modal-btn" onclick="window.closeAlert()">확인</button>
         </div>
     </div>
 
     <div id="custom-confirm" class="modal-overlay">
         <div class="modal-box">
-            <p id="confirm-msg">정말로 게임을 종료하고 처음으로 돌아가시겠습니까?</p>
-            <button id="confirm-yes" class="modal-btn">네, 나갈게요</button>
+            <p id="confirm-msg">정말로 이 단어장을 삭제하시겠습니까?</p>
+            <button id="confirm-yes" class="modal-btn">네, 삭제할게요</button>
             <button id="confirm-no" class="modal-btn cancel">취소</button>
+        </div>
+    </div>
+
+    <!-- 직접 입력을 위한 프롬프트 창 -->
+    <div id="custom-prompt" class="modal-overlay">
+        <div class="modal-box">
+            <p id="prompt-msg">단어장 이름을 입력하세요</p>
+            <input type="text" id="prompt-input" class="modal-input" placeholder="예: 5학년 1단원 복습" autocomplete="off">
+            <button id="prompt-yes" class="modal-btn">저장</button>
+            <button id="prompt-no" class="modal-btn cancel">취소</button>
         </div>
     </div>
 
@@ -661,31 +371,33 @@
                     <label>학습 데이터 종류</label>
                     <div class="mode-selection full-width">
                         <label class="mode-label mode-data">
-                            <input type="radio" name="data-type" value="word" checked onchange="handleDataTypeChange()">
+                            <input type="radio" name="data-type" value="word" checked onchange="window.handleDataTypeChange()">
                             <span class="mode-title" style="font-size: 1.3rem;">단어 (Words)</span>
                         </label>
                         <label class="mode-label mode-data">
-                            <input type="radio" name="data-type" value="sentence" onchange="handleDataTypeChange()">
+                            <input type="radio" name="data-type" value="sentence" onchange="window.handleDataTypeChange()">
                             <span class="mode-title" style="font-size: 1.3rem;">문장 (Sentences)</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label>자동 세팅 (교과서 데이터)</label>
+                    <label>자동 세팅 (교과서/내 저장소)</label>
                     <div class="flex-mobile-col" style="display: flex; gap: 10px;">
-                        <select id="publisher-select" onchange="loadPresetWords()">
+                        <select id="publisher-select" onchange="window.handlePublisherChange()">
                             <option value="ybm" selected>YBM</option>
                             <option value="donga">동아</option>
+                            <option value="chunjae">천재(함)</option>
+                            <option value="custom">내 단어장</option>
                         </select>
-                        <select id="grade-select" onchange="updateLessonOptions()">
+                        <select id="grade-select" onchange="window.updateLessonOptions()">
                             <option value="">학년 선택</option>
                             <option value="3">3학년</option>
                             <option value="4">4학년</option>
                             <option value="5">5학년</option>
                             <option value="6">6학년</option>
                         </select>
-                        <select id="lesson-select" onchange="loadPresetWords()">
+                        <select id="lesson-select" onchange="window.loadPresetWords()">
                             <option value="">단원 선택</option>
                         </select>
                     </div>
@@ -702,6 +414,10 @@
                         <code>apple | 사과</code> 처럼 단어와 뜻을 '|' 기호로 구분하여 줄바꿈으로 입력하세요.
                     </div>
                     <textarea id="word-list" placeholder="apple | 사과&#10;banana | 바나나&#10;..."></textarea>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button id="save-custom-btn" class="modal-btn" style="flex:1; padding: 10px; font-size: 0.9rem;" onclick="window.saveCustomLesson()">💾 현재 데이터 내 단어장에 저장</button>
+                        <button id="delete-custom-btn" class="modal-btn cancel" style="flex:1; padding: 10px; font-size: 0.9rem; display:none;" onclick="window.deleteCustomLesson()">🗑️ 이 단어장 삭제</button>
+                    </div>
                 </div>
             </div>
 
@@ -727,37 +443,37 @@
                     <label>게임 모드 선택</label>
                     <div class="mode-selection">
                         <label class="mode-label">
-                            <input type="radio" name="game-mode" value="blur" checked onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="blur" checked onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">모자이크 깜빡이</span>
                             <span class="mode-desc">흐린 글자를 선명하게</span>
                         </label>
                         <label class="mode-label">
-                            <input type="radio" name="game-mode" value="eraser" onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="eraser" onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">지우개 배틀</span>
                             <span class="mode-desc">화면을 터치해 지우기</span>
                         </label>
                         <label class="mode-label">
-                            <input type="radio" name="game-mode" value="mission" onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="mission" onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">미션 깜빡이</span>
                             <span class="mode-desc">무작위 목소리 미션</span>
                         </label>
                         <label class="mode-label">
-                            <input type="radio" name="game-mode" value="memory" onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="memory" onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">카드 뒤집기</span>
                             <span class="mode-desc">짝맞추기 메모리 게임</span>
                         </label>
                         <label class="mode-label">
-                            <input type="radio" name="game-mode" value="flashlight" onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="flashlight" onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">Flashlight</span>
                             <span class="mode-desc">어둠 속에서 깜빡</span>
                         </label>
                         <label class="mode-label">
-                            <input type="radio" name="game-mode" value="scramble" onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="scramble" onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">Scramble</span>
                             <span class="mode-desc">흩어진 철자 조립</span>
                         </label>
                         <label class="mode-label" style="grid-column: 1 / -1;">
-                            <input type="radio" name="game-mode" value="unjumble" onchange="toggleTimeInput()">
+                            <input type="radio" name="game-mode" value="unjumble" onchange="window.toggleModeSpecificInputs()">
                             <span class="mode-title">문장 조립 (Unjumble)</span>
                             <span class="mode-desc">어순 배열 및 통문장 영작</span>
                         </label>
@@ -771,10 +487,38 @@
                         <span style="color: #495057;">초</span>
                     </div>
                 </div>
+
+                <div class="input-group" id="stopwatch-setting-group" style="display: none;">
+                    <label>스톱워치 설정 (카드 뒤집기 전용)</label>
+                    <div class="mode-selection full-width">
+                        <label class="mode-label mode-toggle">
+                            <input type="radio" name="stopwatch-mode" value="off" checked>
+                            <span class="mode-title">사용 안 함</span>
+                        </label>
+                        <label class="mode-label mode-toggle">
+                            <input type="radio" name="stopwatch-mode" value="on">
+                            <span class="mode-title">사용 (시간 측정)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group" id="memory-time-setting-group" style="display: none;">
+                    <label>카드 암기 시간 (카드 뒤집기 전용)</label>
+                    <div class="mode-selection full-width">
+                        <label class="mode-label mode-toggle">
+                            <input type="radio" name="memory-time" value="5" checked>
+                            <span class="mode-title">5초</span>
+                        </label>
+                        <label class="mode-label mode-toggle">
+                            <input type="radio" name="memory-time" value="10">
+                            <span class="mode-title">10초</span>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <button class="start-btn" onclick="startGame()">Start Game</button>
+        <button class="start-btn" onclick="window.startGame()">Start Game</button>
     </div>
 
     <!-- 게임 화면 -->
@@ -782,8 +526,9 @@
         <div id="top-bar">
             <div id="lesson-info-display"></div>
             <div style="display: flex; gap: 15px; align-items: center;">
+                <div id="stopwatch-display" style="display: none; padding: 8px 24px; border-radius: 50px; background: rgba(51, 154, 240, 0.2); backdrop-filter: blur(10px); border: 1px solid rgba(51, 154, 240, 0.5); font-family: 'Fredoka One', 'Pretendard', sans-serif; color: #74c0fc; font-size: 1.2rem; align-items: center; justify-content: center; min-width: 90px; text-align: center; font-variant-numeric: tabular-nums;">00:00.00</div>
                 <div id="progress-display"></div>
-                <button class="quit-btn" onclick="quitGame()">종료</button>
+                <button class="quit-btn" onclick="window.quitGame()">종료</button>
             </div>
         </div>
 
@@ -810,123 +555,108 @@
             <div id="action-korean-hint"></div>
             <div id="answer-display"></div>
             <div id="btn-group">
-                <button id="hint-btn" class="action-btn hint-btn" onclick="reduceBlur()" style="display: none;">힌트 보기</button>
-                <button id="prev-btn" class="action-btn prev-btn" onclick="prevWord()" style="display: none;">이전</button>
-                <button id="retry-btn" class="action-btn retry-btn" onclick="retryProblem()" style="display: none;">다시보기</button>
-                <button id="main-action-btn" class="action-btn" onclick="handleActionClick()"></button>
+                <button id="hint-btn" class="action-btn hint-btn" onclick="window.reduceBlur()" style="display: none;">힌트 보기</button>
+                <button id="prev-btn" class="action-btn prev-btn" onclick="window.prevWord()" style="display: none;">이전</button>
+                <button id="retry-btn" class="action-btn retry-btn" onclick="window.retryProblem()" style="display: none;">다시보기</button>
+                <button id="main-action-btn" class="action-btn" onclick="window.handleActionClick()"></button>
             </div>
         </div>
     </div>
 
     <script>
-        function showAlert(msg) {
-            document.getElementById('alert-msg').innerText = msg;
-            document.getElementById('custom-alert').style.display = 'flex';
-        }
-        function closeAlert() {
-            document.getElementById('custom-alert').style.display = 'none';
-        }
+        // 전역 변수 및 헬퍼 함수 선언 (추가된 부분)
+        let words = [];
+        let currentWordIndex = 0;
+        let currentMode = 'blur';
+        let isHintModeOn = false;
+        let currentBlur = 35;
+        let hiddenBlur = 35;
+        let hiddenIndices = [];
+        let timerId = null;
+        let timeInMilliseconds = 3000;
+        let currentState = 'setup';
 
-        function showConfirm(msg, onYes) {
-            document.getElementById('confirm-msg').innerText = msg;
-            document.getElementById('custom-confirm').style.display = 'flex';
-            
-            document.getElementById('confirm-yes').onclick = function() {
-                document.getElementById('custom-confirm').style.display = 'none';
-                if(onYes) onYes();
-            };
-            document.getElementById('confirm-no').onclick = function() {
-                document.getElementById('custom-confirm').style.display = 'none';
-            };
-        }
+        let isStopwatchOn = false;
+        let stopwatchStartTime = 0;
+        let stopwatchIntervalId = null;
+        let memoryTimeInSeconds = 5;
 
-        function shuffleArray(arr) {
-            let array = [...arr];
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+        const missions = [
+            "큰 소리로 읽기 🗣️", "눈 감고 말하기 🙈", "코 막고 말하기 👃",
+            "속삭이듯 말하기 🤫", "할머니/할아버지 목소리로 👵👴",
+            "로봇 목소리로 🤖", "아기 목소리로 👶", "화난 목소리로 😠",
+            "슬픈 목소리로 😢", "외계인 목소리로 👽"
+        ];
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
             }
             return array;
         }
 
-        let words = [];
-        let currentWordIndex = 0;
-        let timeInMilliseconds = 3000;
-        let currentMode = 'flashlight';
-        let currentState = 'waiting'; 
-        let timerId = null;
-        let currentBlur = 35; 
-        let hiddenBlur = 35; 
-        let isHintModeOn = false; 
-        let hiddenIndices = [];
-
-        const missions = [
-            "입모양으로만!", 
-            "속삭이는 목소리!", 
-            "발표하는 목소리!", 
-            "아주 큰 목소리!"
-        ];
-
-        let activeDragElement = null;
-        let dragOffsetX = 0;
-        let dragOffsetY = 0;
-
-        document.addEventListener('mousemove', handleDragMove);
-        document.addEventListener('touchmove', handleDragMove, {passive: false});
-        document.addEventListener('mouseup', handleDragEnd);
-        document.addEventListener('touchend', handleDragEnd);
+        // 드래그 로직 변수 및 함수 (Scramble 모드 용)
+        let draggedElement = null;
+        let startX = 0, startY = 0;
+        let originalLeft = 0, originalTop = 0;
 
         function handleDragStart(e) {
-            if (e.type === 'mousedown' && e.button !== 0) return;
-            e.preventDefault();
-            
-            activeDragElement = this;
-            activeDragElement.classList.add('dragging');
-            
-            if (activeDragElement.style.left.includes('%')) {
-                const leftPercent = parseFloat(activeDragElement.style.left);
-                const topPercent = parseFloat(activeDragElement.style.top);
-                const containerRect = document.getElementById('scramble-container').getBoundingClientRect();
-                activeDragElement.style.left = (leftPercent / 100 * containerRect.width) + 'px';
-                activeDragElement.style.top = (topPercent / 100 * containerRect.height) + 'px';
+            if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else {
+                startX = e.clientX;
+                startY = e.clientY;
             }
-            
-            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-            
-            dragOffsetX = clientX - parseFloat(activeDragElement.style.left);
-            dragOffsetY = clientY - parseFloat(activeDragElement.style.top);
+            draggedElement = this;
+            draggedElement.classList.add('dragging');
+
+            originalLeft = parseFloat(draggedElement.style.left) || 0;
+            originalTop = parseFloat(draggedElement.style.top) || 0;
+
+            document.addEventListener('mousemove', handleDragMove);
+            document.addEventListener('mouseup', handleDragEnd);
+            document.addEventListener('touchmove', handleDragMove, {passive: false});
+            document.addEventListener('touchend', handleDragEnd);
         }
 
         function handleDragMove(e) {
-            if (!activeDragElement) return;
-            if (e.type === 'touchmove') e.preventDefault(); 
-            
-            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-            
-            activeDragElement.style.left = (clientX - dragOffsetX) + 'px';
-            activeDragElement.style.top = (clientY - dragOffsetY) + 'px';
+            if (!draggedElement) return;
+            if (e.type === 'touchmove' && e.cancelable) e.preventDefault();
+
+            let currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            let currentY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            const dx = ((currentX - startX) / window.innerWidth) * 100;
+            const dy = ((currentY - startY) / window.innerHeight) * 100;
+
+            draggedElement.style.left = `${originalLeft + dx}%`;
+            draggedElement.style.top = `${originalTop + dy}%`;
         }
 
         function handleDragEnd() {
-            if (activeDragElement) {
-                activeDragElement.classList.remove('dragging');
-                activeDragElement = null;
-            }
+            if (!draggedElement) return;
+            draggedElement.classList.remove('dragging');
+            draggedElement = null;
+            document.removeEventListener('mousemove', handleDragMove);
+            document.removeEventListener('mouseup', handleDragEnd);
+            document.removeEventListener('touchmove', handleDragMove);
+            document.removeEventListener('touchend', handleDragEnd);
         }
 
-        function toggleTimeInput() {
-            const modeRadios = document.getElementsByName('game-mode');
-            let isFlashlight = false;
-            for (const radio of modeRadios) {
-                if (radio.checked && radio.value === 'flashlight') {
-                    isFlashlight = true;
-                    break;
-                }
+        // 로컬스토리지 데이터를 담을 변수
+        let customLessonsMap = {};
+
+        // 페이지 로드 시 로컬스토리지에서 데이터 불러오기
+        window.onload = function() {
+            const savedData = localStorage.getItem('customLessons');
+            if (savedData) {
+                customLessonsMap = JSON.parse(savedData);
             }
-            document.getElementById('time-setting-group').style.display = isFlashlight ? 'block' : 'none';
-        }
+        };
 
         // ==========================================
         // 🌟 단어/문장 데이터베이스
@@ -971,63 +701,6 @@
                 "10": ["cry | 울다", "cut | 베다", "feel | 느끼다", "hard | 열심히", "headache | 두통", "mouth | 입", "nurse | 간호사", "office | 진료소", "sleep | 잠자다", "stomachache | 복통", "toothache | 치통", "understand | 이해하다", "wrong | 잘못된"],
                 "11": ["bank | 은행", "block | 블록", "corner | 코너", "duck | 오리", "excuse | 실례", "fast | 빠른", "give | 주다", "left | 왼쪽", "library | 도서관", "museum | 박물관", "place | 장소", "sand | 모래", "shop | 상점", "toy | 장난감"],
                 "12": ["all | 모두", "as | ~로서", "bring | 가져오다", "choose | 고르다", "city | 도시", "college | 대학", "dry | 마른", "grow | 자라다", "need | 필요하다", "plan | 계획", "plant | 심다", "ski | 스키를 타다", "will | ~할 것이다", "winter | 겨울"]
-            },
-            "6": {
-                "1": ["club | 동아리", "floor | 층", "grade | 학년", "group | 그룹", "member | 회원", "mountain | 산", "race | 경주", "team | 팀", "win | 이기다", "first | 첫 번째의", "second | 두 번째의", "third | 세 번째의", "fourth | 네 번째의", "fifth | 다섯 번째의", "sixth | 여섯 번째의"],
-                "2": ["center | 센터", "drum | 드럼", "early | 일찍", "future | 미래", "guitar | 기타", "interest | 관심", "moon | 달", "travel | 여행하다", "week | 주"],
-                "3": ["campaign | 캠페인", "energy | 에너지", "guess | 추측하다", "hour | 시간", "light | 빛", "off | 끄다", "point | 포인트", "save | 구하다", "should | ~해야 한다", "use | 사용하다", "world | 세계"],
-                "4": ["again | 다시", "before | ~전에", "clothes | 옷", "festival | 축제", "number | 숫자", "party | 파티", "puppy | 강아지", "tail | 꼬리", "twenty-first | 스물한 번째의", "when | 언제", "January | 1월", "February | 2월", "March | 3월", "April | 4월", "May | 5월", "June | 6월", "July | 7월", "August | 8월", "September | 9월", "October | 10월", "November | 11월", "December | 12월"],
-                "5": ["brush | 빗질하다", "children | 아이들", "enough | 충분한", "habit | 습관", "hand | 손", "life | 삶", "meat | 고기", "month | 달, 개월", "often | 자주", "present | 선물", "stay | 머무르다", "twice | 두 번", "wash | 씻다"],
-                "6": ["above | ~위에", "bridge | 다리", "cool | 시원한", "gate | 문", "golden | 황금의", "heavy | 무거운", "people | 사람들", "strong | 강한", "than | ~보다", "think | 생각하다", "which | 어느 것"],
-                "7": ["airplane | 비행기", "ask | 묻다", "behind | ~뒤에", "building | 건물", "bus | 버스", "by | ~옆에", "front | 앞", "gallery | 갤러리", "hospital | 병원", "line | 선", "miss | 놓치다", "police | 경찰", "station | 역", "stop | 멈추다", "subway | 지하철"],
-                "8": ["area | 구역", "dinosaur | 공룡", "director | 감독", "end | 끝", "newspaper | 신문", "printer | 프린터", "programmer | 프로그래머", "safe | 안전한", "story | 이야기"],
-                "9": ["back | 뒤로", "brave | 용감한", "finish | 끝내다", "hero | 영웅", "invent | 발명하다", "king | 왕", "letter | 편지", "map | 지도", "nature | 자연", "rabbit | 토끼", "say | 말하다", "ship | 배", "unbelievable | 믿을 수 없는", "war | 전쟁"],
-                "10": ["answer | 대답하다", "arrive | 도착하다", "autumn | 가을", "away | 떨어져서", "because | 왜냐하면", "clear | 맑은", "coat | 코트", "full | 가득 찬", "land | 땅", "leaf | 나뭇잎", "memory | 기억", "queen | 여왕", "season | 계절", "smile | 미소", "spring | 봄"],
-                "11": ["board | 판", "boring | 지루한", "bright | 밝은", "cheap | 싼", "clever | 영리한", "condition | 상태", "course | 과정", "dangerous | 위험한", "dark | 어두운", "quiet | 조용한", "skirt | 치마", "soft | 부드러운"],
-                "12": ["afraid | 두려워하는", "bean | 콩", "call | 부르다", "carry | 나르다", "culture | 문화", "holiday | 휴일", "Internet | 인터넷", "public | 공공의", "soup | 수프", "street | 거리", "traditional | 전통적인"]
-            }
-        };
-
-        const ybmSentenceDatabase = {
-            "3": {
-                "1": ["Hello! I’m Dito. | 안녕! 나는 디토야.", "Nice to meet you. | 만나서 반가워.", "What’s your name? | 너의 이름은 무엇이니?", "My name is Tom. | 내 이름은 톰이야.", "Nice to meet you, too. | 나도 만나서 반가워.", "Goodbye. | 잘 가."],
-                "2": ["Open the door, please. | 문을 열어 줘.", "Sit down, please. | 앉아 줘.", "Stand up, please. | 일어나 줘.", "Close the door, please. | 문을 닫아 줘.", "Open the window, please. | 창문을 열어 줘.", "Close the window, please. | 창문을 닫아 줘."],
-                "3": ["What’s this? | 이것은 무엇이니?", "It’s a ball. | 그것은 공이야.", "What’s that? | 저것은 무엇이니?", "It’s a bag. | 그것은 가방이야.", "It’s a clock. | 그것은 시계야.", "It’s a hat. | 그것은 모자야.", "It’s a pencil. | 그것은 연필이야."],
-                "4": ["Do you like pizza? | 너는 피자를 좋아하니?", "Yes, I do. | 응, 좋아해.", "Do you like chicken? | 너는 치킨을 좋아하니?", "Do you like salad? | 너는 샐러드를 좋아하니?", "No, I don’t. | 아니, 좋아하지 않아.", "I don't like kiwis. | 나는 키위를 좋아하지 않아.", "I like cookies. | 나는 쿠키를 좋아해."],
-                "5": ["How many kangaroos? | 캥거루가 몇 마리야?", "Four kangaroos. | 네 마리야.", "How many zebras? | 얼룩말이 몇 마리야?", "Three zebras. | 세 마리야.", "How many tigers? | 호랑이가 몇 마리야?", "Two tigers. | 두 마리야.", "It’s big. | 크다.", "It’s small. | 작다.", "How many pigs? | 돼지가 몇 마리야?", "Five cats. | 고양이 다섯 마리야.", "Three dogs. | 개 세 마리야."],
-                "6": ["Can you fly? | 너는 날 수 있니?", "Yes, I can. | 응, 날 수 있어.", "Can you swim? | 너는 수영을 할 수 있니?", "Can you skate? | 너는 스케이트를 탈 수 있니?", "No, I can’t. | 아니, 못 해.", "Can you jump? | 너는 점프를 할 수 있니?", "Can you run? | 너는 달릴 수 있니?", "Can you dance? | 너는 춤출 수 있니?"],
-                "7": ["What color is it? | 무슨 색이야?", "It’s green. | 초록색이야.", "It’s pink. | 분홍색이야.", "It’s orange. | 주황색이야.", "It’s blue. | 파란색이야.", "It’s yellow. | 노란색이야.", "It’s red. | 빨간색이야."],
-                "8": ["Do you have a ruler? | 너는 자가 있니?", "Yes, I do. | 응, 나는 있어.", "Do you have an eraser? | 너는 지우개가 있니?", "Do you have a pen? | 너는 펜이 있니?", "No, I don’t. | 아니, 나는 없어.", "Do you have any crayons? | 너는 크레용이 있니?", "I have a bag. | 나는 가방이 있어."],
-                "9": ["How old are you? | 몇 살이니?", "I’m six years old. | 나는 여섯 살이야.", "I’m seven years old. | 나는 일곱 살이야.", "I’m nine years old. | 나는 아홉 살이야.", "Happy Birthday! | 생일 축하해!"],
-                "10": ["Who is he? | 그는 누구니?", "He’s my dad. | 그는 나의 아빠야.", "Who is she? | 그녀는 누구니?", "She’s my mom. | 그녀는 나의 엄마야.", "He’s my brother. | 그는 나의 남동생이야.", "She's my sister. | 그녀는 나의 여동생이야.", "He's my grandfather. | 그는 나의 할아버지야.", "She's my grandmother. | 그녀는 나의 할머니야."],
-                "11": ["How’s the weather? | 날씨가 어때?", "It’s snowing. | 눈이 와요.", "It’s sunny. | 맑아요.", "It’s raining. | 비가 와요.", "It’s windy. | 바람이 불어요.", "It's cloudy. | 흐려요."]
-            },
-            "4": {
-                "1": ["How are you? | 기분이 어때?", "I am great. | 매우 좋아.", "I am fine. | 좋아.", "Not bad. | 나쁘지 않아.", "Not so good. | 별로 좋지 않아.", "Hello! I am Yeji. | 안녕! 나는 예지야.", "Nice to meet you. | 만나서 반가워.", "Nice to meet you, too. | 나도 만나서 반가워.", "How about you? | 너는 어때?", "This is my friend, Andy. | 이 아이는 나의 친구, 앤디야.", "Come in, please. | 들어오렴.", "Wow! It is delicious. | 우아! 이것은 맛있어요."],
-                "2": ["Let's play baseball. | 우리 야구하자.", "Let's play soccer. | 우리 축구하자.", "Let's play badminton. | 우리 배드민턴 치자.", "Sounds good. | 좋아.", "Sounds great. | 멋져.", "Sorry, I can't. | 미안하지만, 안 되겠어.", "I am busy. | 나는 바빠.", "I have a violin lesson. | 나는 바이올린 수업이 있어.", "Pass the ball, Minh. | 공을 패스해 줘, 민아.", "Let's go outside. | 우리 밖으로 나가자.", "It is raining. | 비가 온다.", "I have an idea. | 나한테 좋은 생각이 있어."],
-                "3": ["Where is my bag? | 내 가방이 어디에 있지?", "It is in the box. | 상자 안에 있어.", "It is on the desk. | 책상 위에 있어.", "It is under the table. | 탁자 아래에 있어.", "Where is my book? | 내 책이 어디에 있지?", "Where is my phone? | 내 휴대 전화가 어디에 있지?", "Let's start. | 시작하자.", "Here is some paper. | 여기 약간의 종이가 있어.", "I can't find it. | 나는 그것을 찾을 수가 없어.", "Don't worry. | 걱정하지 마.", "Hurry up! | 서둘러!", "I can help you. | 내가 너를 도와줄 수 있어."],
-                "4": ["Are you happy? | 너 행복하니?", "Are you sad? | 너 슬프니?", "Are you angry? | 너 화났니?", "Are you thirsty? | 너 목마르니?", "Are you hungry? | 너 배고프니?", "Are you tired? | 너 피곤하니?", "Yes, I am. | 응, 그래.", "No, I am not. | 아니, 그렇지 않아.", "Watch out! | 조심해!", "Let's clean up. | 우리 같이 치우자.", "Here you are. | 여기 있어.", "Let's go inside. | 안으로 들어가자."],
-                "5": ["Don't touch, please. | 만지지 말아 주세요.", "Don't run, please. | 뛰지 말아 주세요.", "Don't eat, please. | 먹지 말아 주세요.", "Don't enter, please. | 들어가지 말아 주세요.", "Don't push, please. | 밀지 말아 주세요.", "Don't talk, please. | 말하지 말아 주세요.", "Okay. I am sorry. | 네. 죄송해요.", "That is okay. | 괜찮아요.", "Let's buy some fruit. | 우리 과일을 좀 사자.", "Do you like grapes? | 너는 포도를 좋아하니?", "Let's eat together. | 우리 같이 먹자.", "Just look, please. | 눈으로만 봐 주세요."],
-                "6": ["Is this your watch? | 이것이 네 손목시계니?", "Is this your umbrella? | 이것이 네 우산이니?", "Is this your bottle? | 이것이 네 병이니?", "Yes, it is. | 네, 제 거예요.", "No, it isn't. | 아니요, 제 게 아니에요.", "It is mine. | 이건 내 거야.", "My umbrella is short. | 내 우산은 짧아.", "My glove is big. | 내 장갑은 커.", "My bat is long. | 내 야구 방망이는 길어.", "I don't know. | 나는 모르겠어.", "Let's go home. | 집에 가자.", "I can't find my umbrella. | 내 우산을 못 찾겠어."],
-                "7": ["What time is it? | 몇 시야?", "It is eight thirty. | 8시 30분이야.", "It is ten thirty. | 10시 30분이야.", "It is twelve o'clock. | 12시야.", "It is time for lunch. | 점심 먹을 시간이야.", "It is time for school. | 학교 갈 시간이야.", "It is time for breakfast. | 아침 먹을 시간이야.", "It is time for dinner. | 저녁 먹을 시간이야.", "It is time for bed. | 잘 시간이야.", "I don't have a watch. | 나는 손목시계가 없어.", "Wait for me, please. | 나를 기다려 줘.", "Sorry. We are late. | 죄송해요. 늦었어요."],
-                "8": ["What are you doing? | 무엇을 하고 있니?", "I am watering the flowers. | 꽃에 물을 주고 있어요.", "I am listening to music. | 노래를 듣고 있어요.", "I am reading a book. | 책을 읽고 있어요.", "I am cleaning the house. | 집을 청소하고 있어요.", "I am drawing a picture. | 그림을 그리고 있어요.", "What is he doing? | 그는 무엇을 하고 있니?", "What is she doing? | 그녀는 무엇을 하고 있니?", "He is making a robot. | 그는 로봇을 만들고 있어.", "Can you help me? | 나 좀 도와줄 수 있어?", "Let's play together. | 함께 놀자.", "I am playing on the computer. | 난 컴퓨터를 하고 있어."],
-                "9": ["What day is it? | 무슨 요일이지?", "It is Monday. | 월요일이야.", "It is Tuesday. | 화요일이야.", "It is Wednesday. | 수요일이야.", "It is Thursday. | 목요일이야.", "It is Friday. | 금요일이야.", "It is Saturday. | 토요일이야.", "It is Sunday. | 일요일이야.", "Have a good day! | 좋은 하루 보내!", "I have art class today. | 오늘 미술 수업이 있어.", "Are you ready? | 준비됐어?", "Let's ride together. | 함께 타고 가자."],
-                "10": ["What do you do? | 무슨 일을 하세요?", "I am a farmer. | 저는 농부예요.", "I am a cook. | 저는 요리사예요.", "I am a firefighter. | 저는 소방관이에요.", "I am a scientist. | 저는 과학자예요.", "I am a pilot. | 저는 조종사예요.", "I am an artist. | 저는 예술가예요.", "I am a doctor. | 저는 의사예요.", "What does he do? | 그는 무슨 일을 하니?", "What does she do? | 그녀는 무슨 일을 하니?", "Are you a cook? | 당신은 요리사이신가요?", "No, I am not. | 아니에요."],
-                "11": ["How much is it? | 이것은 얼마인가요?", "It’s eight hundred won. | 800원이에요.", "It’s two thousand won. | 2,000원이에요.", "It’s five thousand won. | 5,000원이에요.", "Do you have any comic books? | 만화책 있나요?", "How much is this jacket? | 이 재킷 얼마예요?", "How much is this dress? | 이 드레스 얼마예요?", "Can I help you? | 도와드릴까요?", "How much is this pencil case? | 이 필통 얼마예요?", "How much is this T-shirt? | 이 티셔츠 얼마예요?", "How much is this key ring? | 이 열쇠고리 얼마예요?", "How much is this hat? | 이 모자 얼마예요?", "Here you are. | 여기 있습니다."]
-            },
-            "5": {
-                "1": ["Where are you from? | 너는 어디 출신이니?", "I'm from Korea. | 나는 한국 출신이야.", "I'm from Australia. | 나는 호주 출신이야.", "I'm from Kenya. | 나는 케냐 출신이야.", "I'm from Canada. | 나는 캐나다 출신이야.", "I'm from Brazil. | 나는 브라질 출신이야.", "I'm from France. | 나는 프랑스 출신이야.", "I'm from the U.K. | 나는 영국 출신이야.", "I'm from the U.S. | 나는 미국 출신이야.", "Nice to meet you. | 만나서 반가워.", "Have a good time. | 좋은 시간 보내.", "How do you spell it? | 철자가 어떻게 되니?"],
-                "2": ["Whose shoe is this? | 이것은 누구의 신발이니?", "It's my shoe. | 그것은 내 신발이야.", "Whose sock is this? | 이것은 누구의 양말이니?", "It's Andy's sock. | 그것은 앤디의 양말이야.", "Whose basket is this? | 이것은 누구의 바구니니?", "It's Jisu's basket. | 그것은 지수의 바구니야.", "Whose glasses are these? | 이것들은 누구의 안경이니?", "They're my glasses. | 그것들은 내 안경이야.", "Whose pants are these? | 이것들은 누구의 바지니?", "They're Andy's pants. | 그것들은 앤디의 바지야.", "Is this yours? | 이것은 너의 것이니?", "Yes, it is. | 응, 그래."],
-                "3": ["What's your favorite subject? | 네가 가장 좋아하는 과목은 무엇이니?", "My favorite subject is science. | 내가 가장 좋아하는 과목은 과학이야.", "My favorite subject is music. | 내가 가장 좋아하는 과목은 음악이야.", "My favorite subject is math. | 내가 가장 좋아하는 과목은 수학이야.", "My favorite subject is art. | 내가 가장 좋아하는 과목은 미술이야.", "My favorite subject is PE. | 내가 가장 좋아하는 과목은 체육이야.", "Why do you like science? | 너는 왜 과학을 좋아하니?", "Because it's fun. | 왜냐하면 재미있기 때문이야.", "Why do you like math? | 너는 왜 수학을 좋아하니?", "Because I like numbers. | 왜냐하면 나는 숫자를 좋아하기 때문이야.", "I like making things. | 나는 물건 만드는 것을 좋아해.", "I like sports. | 나는 스포츠를 좋아해."],
-                "4": ["May I take a picture? | 사진을 찍어도 되나요?", "Yes, you may. | 네, 그래도 됩니다.", "No, you may not. | 아니요, 그러면 안 됩니다.", "May I feed the animals? | 동물들에게 먹이를 줘도 되나요?", "May I ride a bike? | 자전거를 타어도 되나요?", "May I touch it? | 그것을 만져봐도 되나요?", "May I sit here? | 여기에 앉아도 되나요?", "You must not run. | 뛰면 안 됩니다.", "You must not touch it. | 그것을 만지면 안 됩니다.", "You must keep to the right. | 우측통행을 해야 합니다.", "You must be quiet. | 조용히 해야 합니다.", "Excuse me. | 실례합니다."],
-                "5": ["What would you like? | 무엇을 드시겠어요?", "I'd like a hamburger. | 햄버거 주세요.", "I'd like some spaghetti. | 스파게티 주세요.", "I'd like some salad. | 샐러드 주세요.", "I'd like a sandwich. | 샌드위치 주세요.", "What about you? | 너는 어때?", "How is it? | 맛이 어때?", "It's delicious. | 맛있어.", "It's sweet. | 달콤해.", "It's salty. | 짜.", "It's spicy. | 매워.", "It's sour. | 셔."],
-                "6": ["Where is my phone? | 내 전화기 어디에 있지?", "It's on the table. | 탁자 위에 있어.", "It's in the box. | 상자 안에 있어.", "It's under the bed. | 침대 아래에 있어.", "Where is my cap? | 내 모자 어디에 있지?", "It's on the chair. | 의자 위에 있어.", "It's behind the door. | 문 뒤에 있어.", "It's next to the computer. | 컴퓨터 옆에 있어.", "Let's look for it. | 같이 찾아보자.", "Is it in the living room? | 거실에 있니?", "Is it in the kitchen? | 부엌에 있니?", "I can't find it. | 못 찾겠어."],
-                "7": ["What did you do yesterday? | 너는 어제 무엇을 했니?", "I watched a movie. | 나는 영화를 봤어.", "I played soccer. | 나는 축구를 했어.", "I read a book. | 나는 책을 읽었어.", "I visited my grandparents. | 나는 조부모님을 방문했어.", "I helped my mom. | 나는 엄마를 도왔어.", "How was your weekend? | 주말 어땠어?", "It was great. | 아주 좋았어.", "It was good. | 좋았어.", "It was boring. | 지루했어.", "I went to the park. | 나는 공원에 갔어.", "I went to the museum. | 나는 박물관에 갔어."],
-                "8": ["What does she look like? | 그녀는 어떻게 생겼니?", "She has long curly hair. | 그녀는 긴 곱슬머리를 가지고 있어.", "She has short straight hair. | 그녀는 짧은 생머리를 가지고 있어.", "She is tall. | 그녀는 키가 커.", "She is short. | 그녀는 키가 작아.", "What does he look like? | 그는 어떻게 생겼니?", "He has big eyes. | 그는 큰 눈을 가지고 있어.", "He has a small nose. | 그는 작은 코를 가지고 있어.", "What is she wearing? | 그녀는 무엇을 입고 있니?", "She is wearing a red skirt. | 그녀는 빨간 치마를 입고 있어.", "What is he wearing? | 그는 무엇을 입고 있니?", "He is wearing blue pants. | 그는 파란 바지를 입고 있어."],
-                "9": ["Do you want to play a game? | 너는 게임을 하고 싶니?", "Yes, I do. | 응, 그래.", "No, I don't. | 아니, 그렇지 않아.", "Do you want to watch a movie? | 너는 영화를 보고 싶니?", "What do you want to do? | 너는 무엇을 하고 싶니?", "I want to ride a bike. | 나는 자전거를 타고 싶어.", "I want to play baseball. | 나는 야구를 하고 싶어.", "I want to read a book. | 나는 책을 읽고 싶어.", "Let's go swimming. | 수영하러 가자.", "That's a good idea. | 좋은 생각이야."],
-                "10": ["What's wrong? | 무슨 일이니?", "I have a headache. | 머리가 아파.", "I have a stomachache. | 배가 아파.", "I have a toothache. | 이가 아파.", "I have a cold. | 감기에 걸렸어.", "I have a fever. | 열이 나.", "Take this medicine. | 이 약을 먹어.", "Get some rest. | 휴식을 좀 취해.", "Go to bed early. | 일찍 자렴.", "Drink warm water. | 따뜻한 물을 마시렴.", "You should see a doctor. | 너는 의사 선생님을 만나봐야 해."],
-                "11": ["Where is the museum? | 박물관이 어디에 있나요?", "Go straight one block. | 한 블록 직진하세요.", "Go straight two blocks. | 두 블록 직진하세요.", "Turn left. | 왼쪽으로 도세요.", "Turn right. | 오른쪽으로 도세요.", "It's on your left. | 그것은 당신의 왼쪽에 있어요.", "It's on your right. | 그것은 당신의 오른쪽에 있어요.", "It's next to the bank. | 그것은 은행 옆에 있어요.", "It's across from the library. | 그것은 도서관 맞은편에 있어요."],
-                "12": ["What will you do this weekend? | 너는 이번 주말에 무엇을 할 거니?", "I will go swimming. | 나는 수영하러 갈 거야.", "I will visit my grandparents. | 나는 조부모님 댁에 방문할 거야.", "I will read a book. | 나는 책을 읽을 거야.", "I will play soccer. | 나는 축구를 할 거야.", "I will make cookies. | 나는 쿠키를 만들 거야.", "I will go to the park. | 나는 공원에 갈 거야.", "Sounds fun. | 재미있겠네.", "Have a good time. | 좋은 시간 보내."]
             },
             "6": {
                 "1": ["club | 동아리", "floor | 층", "grade | 학년", "group | 그룹", "member | 회원", "mountain | 산", "race | 경주", "team | 팀", "win | 이기다", "first | 첫 번째의", "second | 두 번째의", "third | 세 번째의", "fourth | 네 번째의", "fifth | 다섯 번째의", "sixth | 여섯 번째의"],
@@ -1104,6 +777,117 @@
             }
         };
 
+        const chunjaeWordDatabase = {
+            "3": {
+                "1": ["apple | 사과", "ball | 공", "cat | 고양이", "dog | 개", "egg | 달걀", "five | 다섯", "game | 게임", "hat | 모자", "hello | 안녕", "jump | 점프하다", "king | 왕", "lion | 사자", "monkey | 원숭이", "nine | 아홉", "orange | 오렌지", "pizza | 피자", "queen | 여왕", "ring | 반지", "sit | 앉다", "six | 여섯", "ten | 열", "up | 위로", "violin | 바이올린", "wind | 바람", "yellow | 노란색", "zebra | 얼룩말"],
+                "2": ["be | ~이다", "bye | 안녕(작별)", "fine | 좋은", "how | 어떻게", "I | 나는", "you | 너는"],
+                "3": ["a | 하나의", "bike | 자전거", "cup | 컵", "doll | 인형", "it | 그것", "look | 보다", "nice | 멋진", "robot | 로봇", "that | 저것", "this | 이것", "what | 무엇", "yes | 네"],
+                "4": ["close | 닫다", "come | 오다", "door | 문", "down | 아래로", "here | 여기에", "okay | 알겠어", "open | 열다", "please | 제발", "stand | 서다", "thank | 감사하다", "the | 그", "touch | 만지다"],
+                "5": ["cow | 소", "eight | 여덟", "four | 넷", "many | 많은", "no | 아니", "one | 하나", "pig | 돼지", "right | 맞다", "seven | 일곱", "three | 셋", "two | 둘"],
+                "6": ["at | ~에", "book | 책", "brush | 붓", "do | 하다", "eraser | 지우개", "great | 멋진", "have | 가지다", "not | 아니다", "pen | 펜", "pencil | 연필", "tape | 테이프"],
+                "7": ["black | 검은색", "blue | 파란색", "color | 색상", "flower | 꽃", "green | 초록색", "hand | 손", "now | 지금", "pink | 분홍색", "red | 빨간색", "sorry | 미안한", "use | 사용하다", "wash | 씻다", "white | 흰색"],
+                "8": ["and | 그리고", "banana | 바나나", "carrot | 당근", "chicken | 닭고기", "dad | 아빠", "good | 좋은", "juice | 주스", "like | 좋아하다", "potato | 감자", "tomato | 토마토"],
+                "9": ["big | 큰", "bird | 새", "cheese | 치즈", "elephant | 코끼리", "say | 말하다", "small | 작은", "tall | 키가 큰", "too | 너무", "tree | 나무", "very | 매우"],
+                "10": ["animal | 동물", "bear | 곰", "can | 할 수 있다", "dance | 춤추다", "fly | 날다", "frog | 개구리", "kangaroo | 캥거루", "run | 달리다", "sing | 노래하다", "swim | 수영하다"],
+                "11": ["bed | 침대", "box | 상자", "chair | 의자", "desk | 책상", "in | ~안에", "on | ~위에", "room | 방", "table | 탁자", "under | 아래에", "where | 어디에"],
+                "12": ["cold | 추운", "hot | 뜨거운", "raining | 비가 오는", "snowing | 눈이 오는", "sunny | 화창한", "weather | 날씨", "windy | 바람이 부는"]
+            },
+            "4": {
+                "1": ["afternoon | 오후", "bag | 가방", "evening | 저녁", "everyone | 모두", "friend | 친구", "meet | 만나다", "morning | 아침", "name | 이름", "new | 새로운", "night | 밤", "to | ~에", "we | 우리는"],
+                "2": ["again | 다시", "angry | 화난", "happy | 행복한", "sad | 슬픈", "sleepy | 졸린", "some | 약간의", "thirsty | 목마른", "tired | 피곤한", "try | 시도하다", "water | 물"],
+                "3": ["careful | 조심하는", "drink | 마시다", "eat | 먹다", "enter | 들어가다", "house | 집", "kick | 차다", "line | 선", "love | 사랑하다", "over | 넘어", "push | 밀다", "talk | 말하다", "welcome | 환영하다"],
+                "4": ["bad | 나쁜", "badminton | 배드민턴", "baseball | 야구", "basketball | 농구", "busy | 바쁜", "let | ~하게 하다", "pass | 건네주다", "play | 놀다", "sick | 아픈", "soccer | 축구", "sound | 소리", "tennis | 테니스"],
+                "5": ["bread | 빵", "cream | 크림", "help | 돕다", "hot | 뜨거운", "ice | 얼음", "milk | 우유", "much | 많이", "noodles | 국수", "salad | 샐러드", "soup | 수프", "want | 원하다"],
+                "6": ["bed | 침대", "box | 상자", "bus | 버스", "chair | 의자", "desk | 책상", "fan | 선풍기", "know | 알다", "table | 탁자", "under | 아래에", "where | 어디에"],
+                "7": ["art | 미술", "birthday | 생일", "class | 수업", "computer | 컴퓨터", "cook | 요리하다", "day | 날", "hike | 등산하다", "lunch | 점심", "party | 파티", "today | 오늘", "wait | 기다리다"],
+                "8": ["car | 자동차", "case | 상자", "comic | 만화", "hundred | 백", "idea | 아이디어", "skirt | 치마", "take | 가져가다", "thousand | 천", "toy | 장난감", "will | ~할 것이다"],
+                "9": ["bottle | 병", "brown | 갈색", "clean | 청소하다", "find | 찾다", "gray | 회색", "notebook | 공책", "park | 공원", "shoe | 신발", "so | 그래서", "umbrella | 우산", "watch | 시계"],
+                "10": ["break | 휴식", "class | 수업", "dinner | 저녁식사", "early | 일찍", "english | 영어", "late | 늦은", "math | 수학", "music | 음악", "science | 과학", "time | 시간"]
+            },
+            "5": {
+                "1": ["about | ~에 대하여", "beautiful | 아름다운", "country | 나라", "cousin | 사촌", "from | ~에서", "guy | 남자", "ride | 타다", "team | 팀", "together | 함께", "well | 잘"],
+                "2": ["album | 앨범", "button | 단추", "collect | 모으다", "cut | 자르다", "fork | 포크", "kitchen | 부엌", "late | 늦은", "map | 지도", "scissors | 가위", "spoon | 숟가락", "they | 그들"],
+                "3": ["along | ~을 따라", "animal | 동물", "borrow | 빌리다", "bring | 가져오다", "energy | 에너지", "grow | 자라다", "just | 단지", "lake | 호수", "piano | 피아노", "problem | 문제", "see | 보다", "star | 별", "vegetable | 채소", "walk | 걷다"],
+                "4": ["airplane | 비행기", "bear | 곰", "boat | 보트", "key | 열쇠", "old | 낡은", "out | 밖으로", "phone | 전화기", "return | 돌려주다", "space | 우주", "textbook | 교과서", "tiger | 호랑이", "top | 꼭대기", "with | ~와 함께"],
+                "5": ["brush | 양치하다", "clean | 청소하다", "do | 하다", "exercise | 운동하다", "face | 얼굴", "often | 자주", "once | 한 번", "teeth | 이빨", "three times | 세 번", "twice | 두 번", "wash | 씻다"],
+                "6": ["bank | 은행", "block | 블록", "go straight | 직진하다", "hospital | 병원", "left | 왼쪽", "library | 도서관", "museum | 박물관", "park | 공원", "police station | 경찰서", "post office | 우체국", "right | 오른쪽", "turn | 돌다"],
+                "7": ["chocolate | 초콜릿", "family | 가족", "festival | 축제", "grape | 포도", "last | 지난", "pick | 고르다", "sea | 바다", "watermelon | 수박", "weekend | 주말", "year | 해", "yesterday | 어제"],
+                "8": ["all | 모든", "beef | 소고기", "cake | 케이크", "chip | 감자튀김", "choose | 선택하다", "feel | 느끼다", "fish | 생선", "fruit | 과일", "meat | 고기", "or | 또는", "sandwich | 샌드위치", "sell | 팔다", "spaghetti | 스파게티", "steak | 스테이크", "tasty | 맛있는", "would | ~할 것이다"],
+                "9": ["ahead | 앞으로", "cheap | 싼", "glass | 유리", "glove | 장갑", "only | 오직", "pants | 바지", "ribbon | 리본", "sale | 세일", "sock | 양말"],
+                "10": ["bake | 굽다", "early | 일찍", "fresh | 신선한", "get | 얻다", "home | 집", "hour | 시간", "job | 직업", "practice | 연습하다", "really | 정말로", "study | 공부하다", "tonight | 오늘 밤"],
+                "11": ["art | 미술", "english | 영어", "favorite | 가장 좋아하는", "history | 역사", "math | 수학", "music | 음악", "pe | 체육", "science | 과학", "subject | 과목"]
+            },
+            "6": {
+                "1": ["club | 동아리", "drum | 드럼", "first | 첫 번째의", "grade | 학년", "guitar | 기타", "hard | 어려운", "luck | 행운", "second | 두 번째의", "show | 보여주다", "ski | 스키", "song | 노래", "spell | 철자를 쓰다", "third | 세 번째의", "wear | 입다"],
+                "2": ["also | 또한", "bright | 밝은", "card | 카드", "clear | 맑은", "cold | 추운", "fall | 가을", "field | 들판", "little | 약간의", "river | 강", "season | 계절", "sky | 하늘", "spring | 봄", "trip | 여행", "warm | 따뜻한", "winter | 겨울"],
+                "3": ["campaign | 캠페인", "earth | 지구", "off | 끄다", "paper | 종이", "poster | 포스터", "save | 구하다", "shirt | 셔츠", "turn | 돌다", "twenty-one | 스물하나", "when | 언제", "world | 세계"],
+                "4": ["because | 왜냐하면", "belt | 벨트", "birdhouse | 새집", "break | 깨다", "congratulation | 축하", "test | 시험", "why | 왜", "worry | 걱정하다", "wrong | 틀린"],
+                "5": ["bad | 나쁜", "cold | 감기", "fever | 열", "headache | 두통", "medicine | 약", "rest | 휴식", "runny nose | 콧물", "stomachache | 복통", "take | 먹다", "toothache | 치통", "wrong | 잘못된"],
+                "6": ["cook | 요리사", "doctor | 의사", "farmer | 농부", "firefighter | 소방관", "movie director | 영화감독", "pilot | 조종사", "scientist | 과학자", "singer | 가수", "teacher | 선생님", "want | 원하다", "writer | 작가"],
+                "7": ["after | ~후에", "biscuit | 비스킷", "course | 코스", "laser | 레이저", "light | 빛", "number | 숫자", "soft | 부드러운", "tell | 말하다"],
+                "8": ["always | 항상", "baby | 아기", "catch | 잡다", "clock | 시계", "dribble | 드리블하다", "fast | 빠른", "giraffe | 기린", "give | 주다", "goal | 목표", "heavy | 무거운", "race | 경주", "side | 옆", "strong | 강한", "than | ~보다", "tower | 탑", "win | 이기다"],
+                "9": ["any | 어떤", "child | 아이", "forest | 숲", "hamburger | 햄버거", "plan | 계획", "program | 프로그램", "room | 방", "stay | 머무르다", "tent | 텐트", "village | 마을", "zoo | 동물원"],
+                "10": ["almost | 거의", "die | 죽다", "enough | 충분한", "exercise | 운동하다", "habit | 습관", "healthy | 건강한", "life | 삶", "lot | 많은", "member | 회원", "nothing | 아무것도", "often | 종종", "once | 한 번", "should | ~해야 한다", "tooth | 이", "twice | 두 번"]
+            }
+        };
+
+        const ybmSentenceDatabase = {
+            "3": {
+                "1": ["Hello! I’m Dito. | 안녕! 나는 디토야.", "Nice to meet you. | 만나서 반가워.", "What’s your name? | 너의 이름은 무엇이니?", "My name is Tom. | 내 이름은 톰이야.", "Nice to meet you, too. | 나도 만나서 반가워.", "Goodbye. | 잘 가."],
+                "2": ["Open the door, please. | 문을 열어 줘.", "Sit down, please. | 앉아 줘.", "Stand up, please. | 일어나 줘.", "Close the door, please. | 문을 닫아 줘.", "Open the window, please. | 창문을 열어 줘.", "Close the window, please. | 창문을 닫아 줘."],
+                "3": ["What’s this? | 이것은 무엇이니?", "It’s a ball. | 그것은 공이야.", "What’s that? | 저것은 무엇이니?", "It’s a bag. | 그것은 가방이야.", "It’s a clock. | 그것은 시계야.", "It’s a hat. | 그것은 모자야.", "It’s a pencil. | 그것은 연필이야."],
+                "4": ["Do you like pizza? | 너는 피자를 좋아하니?", "Yes, I do. | 응, 좋아해.", "Do you like chicken? | 너는 치킨을 좋아하니?", "Do you like salad? | 너는 샐러드를 좋아하니?", "No, I don’t. | 아니, 좋아하지 않아.", "I don't like kiwis. | 나는 키위를 좋아하지 않아.", "I like cookies. | 나는 쿠키를 좋아해."],
+                "5": ["How many kangaroos? | 캥거루가 몇 마리야?", "Four kangaroos. | 네 마리야.", "How many zebras? | 얼룩말이 몇 마리야?", "Three zebras. | 세 마리야.", "How many tigers? | 호랑이가 몇 마리야?", "Two tigers. | 두 마리야.", "It’s big. | 크다.", "It’s small. | 작다.", "How many pigs? | 돼지가 몇 마리야?", "Five cats. | 고양이 다섯 마리야.", "Three dogs. | 개 세 마리야."],
+                "6": ["Can you fly? | 너는 날 수 있니?", "Yes, I can. | 응, 날 수 있어.", "Can you swim? | 너는 수영을 할 수 있니?", "Can you skate? | 너는 스케이트를 탈 수 있니?", "No, I can’t. | 아니, 못 해.", "Can you jump? | 너는 점프를 할 수 있니?", "Can you run? | 너는 달릴 수 있니?", "Can you dance? | 너는 춤출 수 있니?"],
+                "7": ["What color is it? | 무슨 색이야?", "It’s green. | 초록색이야.", "It’s pink. | 분홍색이야.", "It’s orange. | 주황색이야.", "It’s blue. | 파란색이야.", "It’s yellow. | 노란색이야.", "It’s red. | 빨간색이야."],
+                "8": ["Do you have a ruler? | 너는 자가 있니?", "Yes, I do. | 응, 나는 있어.", "Do you have an eraser? | 너는 지우개가 있니?", "Do you have a pen? | 너는 펜이 있니?", "No, I don’t. | 아니, 나는 없어.", "Do you have any crayons? | 너는 크레용이 있니?", "I have a bag. | 나는 가방이 있어."],
+                "9": ["How old are you? | 몇 살이니?", "I’m six years old. | 나는 여섯 살이야.", "I’m seven years old. | 나는 일곱 살이야.", "I’m nine years old. | 나는 아홉 살이야.", "Happy Birthday! | 생일 축하해!"],
+                "10": ["Who is he? | 그는 누구니?", "He’s my dad. | 그는 나의 아빠야.", "Who is she? | 그녀는 누구니?", "She’s my mom. | 그녀는 나의 엄마야.", "He’s my brother. | 그는 나의 남동생이야.", "She's my sister. | 그녀는 나의 여동생이야.", "He's my grandfather. | 그는 나의 할아버지야.", "She's my grandmother. | 그녀는 나의 할머니야."],
+                "11": ["How’s the weather? | 날씨가 어때?", "It’s snowing. | 눈이 와요.", "It’s sunny. | 맑아요.", "It’s raining. | 비가 와요.", "It’s windy. | 바람이 불어요.", "It's cloudy. | 흐려요."]
+            },
+            "4": {
+                "1": ["How are you? | 기분이 어때?", "I am great. | 매우 좋아.", "I am fine. | 좋아.", "Not bad. | 나쁘지 않아.", "Not so good. | 별로 좋지 않아.", "Hello! I am Yeji. | 안녕! 나는 예지야.", "Nice to meet you. | 만나서 반가워.", "Nice to meet you, too. | 나도 만나서 반가워.", "How about you? | 너는 어때?", "This is my friend, Andy. | 이 아이는 나의 친구, 앤디야.", "Come in, please. | 들어오렴.", "Wow! It is delicious. | 우아! 이것은 맛있어요."],
+                "2": ["Let's play baseball. | 우리 야구하자.", "Let's play soccer. | 우리 축구하자.", "Let's play badminton. | 우리 배드민턴 치자.", "Sounds good. | 좋아.", "Sounds great. | 멋져.", "Sorry, I can't. | 미안하지만, 안 되겠어.", "I am busy. | 나는 바빠.", "I have a violin lesson. | 나는 바이올린 수업이 있어.", "Pass the ball, Minh. | 공을 패스해 줘, 민아.", "Let's go outside. | 우리 밖으로 나가자.", "It is raining. | 비가 온다.", "I have an idea. | 나한테 좋은 생각이 있어."],
+                "3": ["Where is my bag? | 내 가방이 어디에 있지?", "It is in the box. | 상자 안에 있어.", "It is on the desk. | 책상 위에 있어.", "It is under the table. | 탁자 아래에 있어.", "Where is my book? | 내 책이 어디에 있지?", "Where is my phone? | 내 휴대 전화가 어디에 있지?", "Let's start. | 시작하자.", "Here is some paper. | 여기 약간의 종이가 있어.", "I can't find it. | 나는 그것을 찾을 수가 없어.", "Don't worry. | 걱정하지 마.", "Hurry up! | 서둘러!", "I can help you. | 내가 너를 도와줄 수 있어."],
+                "4": ["Are you happy? | 너 행복하니?", "Are you sad? | 너 슬프니?", "Are you angry? | 너 화났니?", "Are you thirsty? | 너 목마르니?", "Are you hungry? | 너 배고프니?", "Are you tired? | 너 피곤하니?", "Yes, I am. | 응, 그래.", "No, I am not. | 아니, 그렇지 않아.", "Watch out! | 조심해!", "Let's clean up. | 우리 같이 치우자.", "Here you are. | 여기 있어.", "Let's go inside. | 안으로 들어가자."],
+                "5": ["Don't touch, please. | 만지지 말아 주세요.", "Don't run, please. | 뛰지 말아 주세요.", "Don't eat, please. | 먹지 말아 주세요.", "Don't enter, please. | 들어가지 말아 주세요.", "Don't push, please. | 밀지 말아 주세요.", "Don't talk, please. | 말하지 말아 주세요.", "Okay. I am sorry. | 네. 죄송해요.", "That is okay. | 괜찮아요.", "Let's buy some fruit. | 우리 과일을 좀 사자.", "Do you like grapes? | 너는 포도를 좋아하니?", "Let's eat together. | 우리 같이 먹자.", "Just look, please. | 눈으로만 봐 주세요."],
+                "6": ["Is this your watch? | 이것이 네 손목시계니?", "Is this your umbrella? | 이것이 네 우산이니?", "Is this your bottle? | 이것이 네 병이니?", "Yes, it is. | 네, 제 거예요.", "No, it isn't. | 아니요, 제 게 아니에요.", "It is mine. | 이건 내 거야.", "My umbrella is short. | 내 우산은 짧아.", "My glove is big. | 내 장갑은 커.", "My bat is long. | 내 야구 방망이는 길어.", "I don't know. | 나는 모르겠어.", "Let's go home. | 집에 가자.", "I can't find my umbrella. | 내 우산을 못 찾겠어."],
+                "7": ["What time is it? | 몇 시야?", "It is eight thirty. | 8시 30분이야.", "It is ten thirty. | 10시 30분이야.", "It is twelve o'clock. | 12시야.", "It is time for lunch. | 점심 먹을 시간이야.", "It is time for school. | 학교 갈 시간이야.", "It is time for breakfast. | 아침 먹을 시간이야.", "It is time for dinner. | 저녁 먹을 시간이야.", "It is time for bed. | 잘 시간이야.", "I don't have a watch. | 나는 손목시계가 없어.", "Wait for me, please. | 나를 기다려 줘.", "Sorry. We are late. | 죄송해요. 늦었어요."],
+                "8": ["What are you doing? | 무엇을 하고 있니?", "I am watering the flowers. | 꽃에 물을 주고 있어요.", "I am listening to music. | 노래를 듣고 있어요.", "I am reading a book. | 책을 읽고 있어요.", "I am cleaning the house. | 집을 청소하고 있어요.", "I am drawing a picture. | 그림을 그리고 있어요.", "What is he doing? | 그는 무엇을 하고 있니?", "What is she doing? | 그녀는 무엇을 하고 있니?", "He is making a robot. | 그는 로봇을 만들고 있어.", "Can you help me? | 나 좀 도와줄 수 있어?", "Let's play together. | 함께 놀자.", "I am playing on the computer. | 난 컴퓨터를 하고 있어."],
+                "9": ["What day is it? | 무슨 요일이지?", "It is Monday. | 월요일이야.", "It is Tuesday. | 화요일이야.", "It is Wednesday. | 수요일이야.", "It is Thursday. | 목요일이야.", "It is Friday. | 금요일이야.", "It is Saturday. | 토요일이야.", "It is Sunday. | 일요일이야.", "Have a good day! | 좋은 하루 보내!", "I have art class today. | 오늘 미술 수업이 있어.", "Are you ready? | 준비됐어?", "Let's ride together. | 함께 타고 가자."],
+                "10": ["What do you do? | 무슨 일을 하세요?", "I am a farmer. | 저는 농부예요.", "I am a cook. | 저는 요리사예요.", "I am a firefighter. | 저는 소방관이에요.", "I am a scientist. | 저는 과학자예요.", "I am a pilot. | 저는 조종사예요.", "I am an artist. | 저는 예술가예요.", "I am a doctor. | 저는 의사예요.", "What does he do? | 그는 무슨 일을 하니?", "What does she do? | 그녀는 무슨 일을 하니?", "Are you a cook? | 당신은 요리사이신가요?", "No, I am not. | 아니에요."],
+                "11": ["How much is it? | 이것은 얼마인가요?", "It’s eight hundred won. | 800원이에요.", "It’s two thousand won. | 2,000원이에요.", "It’s five thousand won. | 5,000원이에요.", "Do you have any comic books? | 만화책 있나요?", "How much is this jacket? | 이 재킷 얼마예요?", "How much is this dress? | 이 드레스 얼마예요?", "Can I help you? | 도와드릴까요?", "How much is this pencil case? | 이 필통 얼마예요?", "How much is this T-shirt? | 이 티셔츠 얼마예요?", "How much is this key ring? | 이 열쇠고리 얼마예요?", "How much is this hat? | 이 모자 얼마예요?", "Here you are. | 여기 있습니다."]
+            },
+            "5": {
+                "1": ["Where are you from? | 너는 어디 출신이니?", "I'm from Korea. | 나는 한국 출신이야.", "I'm from Australia. | 나는 호주 출신이야.", "I'm from Kenya. | 나는 케냐 출신이야.", "I'm from Canada. | 나는 캐나다 출신이야.", "I'm from Brazil. | 나는 브라질 출신이야.", "I'm from France. | 나는 프랑스 출신이야.", "I'm from the U.K. | 나는 영국 출신이야.", "I'm from the U.S. | 나는 미국 출신이야.", "Nice to meet you. | 만나서 반가워.", "Have a good time. | 좋은 시간 보내.", "How do you spell it? | 철자가 어떻게 되니?"],
+                "2": ["Whose shoe is this? | 이것은 누구의 신발이니?", "It's my shoe. | 그것은 내 신발이야.", "Whose sock is this? | 이것은 누구의 양말이니?", "It's Andy's sock. | 그것은 앤디의 양말이야.", "Whose basket is this? | 이것은 누구의 바구니니?", "It's Jisu's basket. | 그것은 지수의 바구니야.", "Whose glasses are these? | 이것들은 누구의 안경이니?", "They're my glasses. | 그것들은 내 안경이야.", "Whose pants are these? | 이것들은 누구의 바지니?", "They're Andy's pants. | 그것들은 앤디의 바지야.", "Is this yours? | 이것은 너의 것이니?", "Yes, it is. | 응, 그래."],
+                "3": ["What's your favorite subject? | 네가 가장 좋아하는 과목은 무엇이니?", "My favorite subject is science. | 내가 가장 좋아하는 과목은 과학이야.", "My favorite subject is music. | 내가 가장 좋아하는 과목은 음악이야.", "My favorite subject is math. | 내가 가장 좋아하는 과목은 수학이야.", "My favorite subject is art. | 내가 가장 좋아하는 과목은 미술이야.", "My favorite subject is PE. | 내가 가장 좋아하는 과목은 체육이야.", "Why do you like science? | 너는 왜 과학을 좋아하니?", "Because it's fun. | 왜냐하면 재미있기 때문이야.", "Why do you like math? | 너는 왜 수학을 좋아하니?", "Because I like numbers. | 왜냐하면 나는 숫자를 좋아하기 때문이야.", "I like making things. | 나는 물건 만드는 것을 좋아해.", "I like sports. | 나는 스포츠를 좋아해."],
+                "4": ["May I take a picture? | 사진 찍어도 되나요?", "Yes, you may. | 네, 그래도 됩니다.", "No, you may not. | 아니요, 그러면 안 됩니다.", "May I feed the animals? | 동물들에게 먹이를 줘도 되나요?", "May I ride a bike? | 자전거를 타어도 되나요?", "May I touch it? | 그것을 만져봐도 되나요?", "May I sit here? | 여기에 앉아도 되나요?", "You must not run. | 뛰면 안 됩니다.", "You must not touch it. | 그것을 만지면 안 됩니다.", "You must keep to the right. | 우측통행을 해야 합니다.", "You must be quiet. | 조용히 해야 합니다.", "Excuse me. | 실례합니다."],
+                "5": ["What would you like? | 무엇을 드시겠어요?", "I'd like a hamburger. | 햄버거 주세요.", "I'd like some spaghetti. | 스파게티 주세요.", "I'd like some salad. | 샐러드 주세요.", "I'd like a sandwich. | 샌드위치 주세요.", "What about you? | 너는 어때?", "How is it? | 맛이 어때?", "It's delicious. | 맛있어.", "It's sweet. | 달콤해.", "It's salty. | 짜.", "It's spicy. | 매워.", "It's sour. | 셔."],
+                "6": ["Where is my phone? | 내 전화기 어디에 있지?", "It's on the table. | 탁자 위에 있어.", "It's in the box. | 상자 안에 있어.", "It's under the bed. | 침대 아래에 있어.", "Where is my cap? | 내 모자 어디에 있지?", "It's on the chair. | 의자 위에 있어.", "It's behind the door. | 문 뒤에 있어.", "It's next to the computer. | 컴퓨터 옆에 있어.", "Let's look for it. | 같이 찾아보자.", "Is it in the living room? | 거실에 있니?", "Is it in the kitchen? | 부엌에 있니?", "I can't find it. | 못 찾겠어."],
+                "7": ["What did you do yesterday? | 너는 어제 무엇을 했니?", "I watched a movie. | 나는 영화를 봤어.", "I played soccer. | 나는 축구를 했어.", "I read a book. | 나는 책을 읽었어.", "I visited my grandparents. | 나는 조부모님을 방문했어.", "I helped my mom. | 나는 엄마를 도왔어.", "How was your weekend? | 주말 어땠어?", "It was great. | 아주 좋았어.", "It was good. | 좋았어.", "It was boring. | 지루했어.", "I went to the park. | 나는 공원에 갔어.", "I went to the museum. | 나는 박물관에 갔어."],
+                "8": ["What does she look like? | 그녀는 어떻게 생겼니?", "She has long curly hair. | 그녀는 긴 곱슬머리를 가지고 있어.", "She has short straight hair. | 그녀는 짧은 생머리를 가지고 있어.", "She is tall. | 그녀는 키가 커.", "She is short. | 그녀는 키가 작아.", "What does he look like? | 그는 어떻게 생겼니?", "He has big eyes. | 그는 큰 눈을 가지고 있어.", "He has a small nose. | 그는 작은 코를 가지고 있어.", "What is she wearing? | 그녀는 무엇을 입고 있니?", "She is wearing a red skirt. | 그녀는 빨간 치마를 입고 있어.", "What is he wearing? | 그는 무엇을 입고 있니?", "He is wearing blue pants. | 그는 파란 바지를 입고 있어."],
+                "9": ["Do you want to play a game? | 너는 게임을 하고 싶니?", "Yes, I do. | 응, 그래.", "No, I don't. | 아니, 그렇지 않아.", "Do you want to watch a movie? | 너는 영화를 보고 싶니?", "What do you want to do? | 너는 무엇을 하고 싶니?", "I want to ride a bike. | 나는 자전거를 타고 싶어.", "I want to play baseball. | 나는 야구를 하고 싶어.", "I want to read a book. | 나는 책을 읽고 싶어.", "Let's go swimming. | 수영하러 가자.", "That's a good idea. | 좋은 생각이야."],
+                "10": ["What's wrong? | 무슨 일이니?", "I have a headache. | 머리가 아파.", "I have a stomachache. | 배가 아파.", "I have a toothache. | 이가 아파.", "I have a cold. | 감기에 걸렸어.", "I have a fever. | 열이 나.", "Take this medicine. | 이 약을 먹어.", "Get some rest. | 휴식을 좀 취해.", "Go to bed early. | 일찍 자렴.", "Drink warm water. | 따뜻한 물을 마시렴.", "You should see a doctor. | 너는 의사 선생님을 만나봐야 해."],
+                "11": ["Where is the museum? | 박물관이 어디에 있나요?", "Go straight one block. | 한 블록 직진하세요.", "Go straight two blocks. | 두 블록 직진하세요.", "Turn left. | 왼쪽으로 도세요.", "Turn right. | 오른쪽으로 도세요.", "It's on your left. | 그것은 당신의 왼쪽에 있어요.", "It's on your right. | 그것은 당신의 오른쪽에 있어요.", "It's next to the bank. | 그것은 은행 옆에 있어요.", "It's across from the library. | 그것은 도서관 맞은편에 있어요."],
+                "12": ["What will you do this weekend? | 너는 이번 주말에 무엇을 할 거니?", "I will go swimming. | 나는 수영하러 갈 거야.", "I will visit my grandparents. | 나는 조부모님 댁에 방문할 거야.", "I will read a book. | 나는 책을 읽을 거야.", "I will play soccer. | 나는 축구를 할 거야.", "I will make cookies. | 나는 쿠키를 만들 거야.", "I will go to the park. | 나는 공원에 갈 거야.", "Sounds fun. | 재미있겠네.", "Have a good time. | 좋은 시간 보내."]
+            },
+            "6": {
+                "1": ["club | 동아리", "floor | 층", "grade | 학년", "group | 그룹", "member | 회원", "mountain | 산", "race | 경주", "team | 팀", "win | 이기다", "first | 첫 번째의", "second | 두 번째의", "third | 세 번째의", "fourth | 네 번째의", "fifth | 다섯 번째의", "sixth | 여섯 번째의"],
+                "2": ["center | 센터", "drum | 드럼", "early | 일찍", "future | 미래", "guitar | 기타", "interest | 관심", "moon | 달", "travel | 여행하다", "week | 주"],
+                "3": ["campaign | 캠페인", "energy | 에너지", "guess | 추측하다", "hour | 시간", "light | 빛", "off | 끄다", "point | 포인트", "save | 구하다", "should | ~해야 한다", "use | 사용하다", "world | 세계"],
+                "4": ["again | 다시", "before | ~전에", "clothes | 옷", "festival | 축제", "number | 숫자", "party | 파티", "puppy | 강아지", "tail | 꼬리", "twenty-first | 스물한 번째의", "when | 언제", "January | 1월", "February | 2월", "March | 3월", "April | 4월", "May | 5월", "June | 6월", "July | 7월", "August | 8월", "September | 9월", "October | 10월", "November | 11월", "December | 12월"],
+                "5": ["brush | 빗질하다", "children | 아이들", "enough | 충분한", "habit | 습관", "hand | 손", "life | 삶", "meat | 고기", "month | 달, 개월", "often | 자주", "present | 선물", "stay | 머무르다", "twice | 두 번", "wash | 씻다"],
+                "6": ["above | ~위에", "bridge | 다리", "cool | 시원한", "gate | 문", "golden | 황금의", "heavy | 무거운", "people | 사람들", "strong | 강한", "than | ~보다", "think | 생각하다", "which | 어느 것"],
+                "7": ["airplane | 비행기", "ask | 묻다", "behind | ~뒤에", "building | 건물", "bus | 버스", "by | ~옆에", "front | 앞", "gallery | 갤러리", "hospital | 병원", "line | 선", "miss | 놓치다", "police | 경찰", "station | 역", "stop | 멈추다", "subway | 지하철"],
+                "8": ["area | 구역", "dinosaur | 공룡", "director | 감독", "end | 끝", "newspaper | 신문", "printer | 프린터", "programmer | 프로그래머", "safe | 안전한", "story | 이야기"],
+                "9": ["back | 뒤로", "brave | 용감한", "finish | 끝내다", "hero | 영웅", "invent | 발명하다", "king | 왕", "letter | 편지", "map | 지도", "nature | 자연", "rabbit | 토끼", "say | 말하다", "ship | 배", "unbelievable | 믿을 수 없는", "war | 전쟁"],
+                "10": ["answer | 대답하다", "arrive | 도착하다", "autumn | 가을", "away | 떨어져서", "because | 왜냐하면", "clear | 맑은", "coat | 코트", "full | 가득 찬", "land | 땅", "leaf | 나뭇잎", "memory | 기억", "queen | 여왕", "season | 계절", "smile | 미소", "spring | 봄"],
+                "11": ["board | 판", "boring | 지루한", "bright | 밝은", "cheap | 싼", "clever | 영리한", "condition | 상태", "course | 과정", "dangerous | 위험한", "dark | 어두운", "quiet | 조용한", "skirt | 치마", "soft | 부드러운"],
+                "12": ["afraid | 두려워하는", "bean | 콩", "call | 부르다", "carry | 나르다", "culture | 문화", "holiday | 휴일", "Internet | 인터넷", "public | 공공의", "soup | 수프", "street | 거리", "traditional | 전통적인"]
+            }
+        };
+
         const dongaSentenceDatabase = {
             "3": {
                 "1": ["Hello, I'm Bora. | 안녕, 나는 보라야.", "Nice to meet you. | 만나서 반가워.", "Nice to meet you, too. | 나도 만나서 반가워.", "What's your name? | 네 이름은 무엇이니?", "My name is Tom. | 내 이름은 톰이야.", "Goodbye. | 잘 가."],
@@ -1163,28 +947,92 @@
             }
         };
 
-        function updateLessonOptions() {
-            const grade = document.getElementById('grade-select').value;
-            const lessonSelect = document.getElementById('lesson-select');
-            
-            lessonSelect.innerHTML = '<option value="">단원 선택</option>';
-            if (!grade) return; 
-
-            const maxLesson = (grade === "3" || grade === "4") ? 11 : 12;
-
-            for (let i = 1; i <= maxLesson; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.text = `Lesson ${i}`;
-                lessonSelect.appendChild(option);
+        const chunjaeSentenceDatabase = {
+            "3": {
+                "1": ["Hi. / Hello. | 안녕.", "Bye. | 잘 가.", "I'm Zico. | 나는 지코야.", "Thank you. | 고마워."],
+                "2": ["What's this? | 이것은 무엇이니?", "What's that? | 저것은 무엇이니?", "It's a bike. | 그것은 자전거야.", "Nice! | 멋지다!"],
+                "3": ["Sit down, please. | 앉아 줘.", "Stand up, please. | 일어나 줘.", "Okay. | 알았어.", "I'm sorry. | 미안해.", "That's okay. | 괜찮아."],
+                "4": ["How many carrots? | 당근이 몇 개니?", "Four carrots. | 당근 네 개야.", "Thank you. | 고마워.", "You're welcome. | 천만에."],
+                "5": ["How many cows? | 소가 몇 마리니?", "Three cows. | 소 세 마리야.", "That's right. | 맞아."],
+                "6": ["Do you have a pencil? | 넌 연필을 가지고 있니?", "Yes, I do. | 응, 가지고 있어.", "No, I don't. | 아니, 안 가지고 있어.", "I have a brush. | 난 붓을 가지고 있어.", "I don't have a brush. | 난 붓이 없어."],
+                "7": ["What color is it? | 무슨 색깔이니?", "It's pink. | 분홍색이야.", "I'm sorry. | 미안해.", "That's okay. | 괜찮아."],
+                "8": ["Do you like apples? | 넌 사과를 좋아하니?", "Yes, I do. | 응, 좋아해.", "No, I don't. | 아니, 안 좋아해.", "I like carrots. | 난 당근을 좋아해.", "I don't like carrots. | 난 당근을 안 좋아해."],
+                "9": ["It's big. | 그건 커.", "Is it a bird? | 그건 새니?", "Yes, it is. | 응, 그래.", "No, it isn't. | 아니, 안 그래."]
+            },
+            "4": {
+                "1": ["What's your name? | 네 이름은 무엇이니?", "My name is Amy. | 내 이름은 에이미야.", "Nice to meet you. | 만나서 반가워.", "Nice to meet you, too. | 나도 만나서 반가워.", "Good morning. | 좋은 아침."],
+                "2": ["This is my friend. | 이쪽은 내 친구야.", "How are you? | 기분이 어때?", "I'm fine. | 난 좋아."],
+                "3": ["Are you happy? | 너 행복하니?", "Yes, I am. | 응, 그래.", "No, I'm not. I'm sad. | 아니. 난 슬퍼.", "Me, too. | 나도 그래."],
+                "4": ["Don't sit here. | 여기 앉지 마.", "Okay. | 알겠어.", "Be careful. | 조심해."],
+                "5": ["Let's play baseball. | 야구하자.", "Sounds good. | 좋아.", "Sorry, I can't. | 미안하지만 안 돼.", "That's too bad. | 안됐구나."],
+                "6": ["What do you want? | 넌 무엇을 원하니?", "I want chicken. | 난 치킨을 원해.", "Help yourself. | 마음껏 먹어."],
+                "7": ["Where's my cap? | 내 모자는 어디 있니?", "It's on the table. | 그건 탁자 위에 있어.", "I don't know. | 난 몰라."],
+                "8": ["What day is it today? | 오늘 무슨 요일이니?", "It's Wednesday. | 수요일이야.", "I have a computer class. | 난 컴퓨터 수업이 있어."],
+                "9": ["How much is it? | 얼마인가요?", "It's seven hundred won. | 700원입니다.", "I'll take it. | 그걸로 살게요."],
+                "10": ["Is this your bag? | 이거 네 가방이니?", "Yes, it is. | 응, 맞아.", "No, it isn't. | 아니, 아니야.", "My cap is gray. | 내 모자는 회색이야."]
+            },
+            "5": {
+                "1": ["Where are you from? | 넌 어디 출신이니?", "I'm from Canada. | 난 캐나다 출신이야.", "This is my friend, Uju. | 이쪽은 내 친구 우주야.", "Nice to meet you. | 만나서 반가워."],
+                "2": ["What are these? | 이것들은 무엇이니?", "What are those? | 저것들은 무엇이니?", "They're buttons. | 그것들은 단추야.", "How nice! | 멋지다!"],
+                "3": ["Can I take pictures? | 사진 찍어도 되나요?", "Yes, you can. | 네, 그래도 돼요.", "No, you can't. | 아니요, 안 돼요.", "Thank you. | 고맙습니다.", "No problem. | 천만에요."],
+                "4": ["Whose pen is this? | 이것은 누구 펜이니?", "Whose pen is that? | 저것은 누구 펜이니?", "It's Amy's. | 에이미의 것이야.", "It's mine. | 내 것이야.", "No, it's Uju's textbook. | 아니, 그건 우주의 교과서야."],
+                "7": ["What did you do this summer? | 이번 여름에 무엇을 했니?", "I swam in the sea. | 난 바다에서 수영했어.", "How was your weekend? | 주말 어땠어?", "It was good. | 좋았어.", "It was great. | 아주 좋았어."],
+                "8": ["What would you like? | 무엇을 드시겠어요?", "I'd like a fruit salad. | 과일 샐러드 주세요.", "Do you want some more? | 좀 더 원하시나요?", "Yes, please. | 네, 주세요.", "No, thanks. | 아니요, 괜찮습니다."],
+                "9": ["How much are the pants? | 바지는 얼마인가요?", "They're twenty thousand won. | 2만 원입니다.", "What color do you want? | 무슨 색상을 원하시나요?", "I want red, please. | 빨간색으로 주세요."],
+                "10": ["What time do you get up? | 넌 몇 시에 일어나니?", "I get up at 8. | 난 8시에 일어나.", "Really? | 정말?"]
+            },
+            "6": {
+                "1": ["What grade are you in? | 넌 몇 학년이니?", "I'm in the sixth grade. | 난 6학년이야.", "How do you spell your name? | 네 이름의 철자가 어떻게 되니?", "L-I-N-H P-H-A-N. | L-I-N-H P-H-A-N이야."],
+                "2": ["What season do you like? | 넌 어떤 계절을 좋아하니?", "I like spring. | 난 봄을 좋아해.", "I can see beautiful flowers. | 예쁜 꽃들을 볼 수 있어.", "Good job! | 잘했어!"],
+                "3": ["When is your birthday? | 네 생일은 언제니?", "It's on May 7th. | 5월 7일이야.", "I can't wait! | 정말 기대돼!"],
+                "4": ["Why are you happy? | 넌 왜 행복하니?", "Because I got a black belt. | 검은 띠를 땄기 때문이야.", "Don't worry. | 걱정하지 마."],
+                "7": ["Can you come to the movie festival? | 영화 축제에 올 수 있니?", "Of course. | 물론이지.", "Sorry, but I can't. | 미안하지만 갈 수 없어.", "Come to the sports park at 10. | 10시에 스포츠 공원으로 와."],
+                "8": ["It's taller than the tree. | 그건 나무보다 더 커.", "That's not right. | 그건 맞지 않아."],
+                "9": ["What are you going to do this weekend? | 이번 주말에 뭐 할 거니?", "I'm going to stay home. | 난 집에 머무를 거야.", "That's a good idea. | 좋은 생각이야."],
+                "10": ["How often do you eat vegetables? | 얼마나 자주 채소를 먹니?", "Once a day. | 하루에 한 번.", "Good for you. | 잘했어."]
             }
-            
-            document.getElementById('word-list').value = '';
-            document.getElementById('lesson-info').value = '';
+        };
+
+        // window에 함수를 바인딩하여 HTML의 onclick, onchange에서 호출 가능하도록 설정
+        window.closeAlert = function() {
+            document.getElementById('custom-alert').style.display = 'none';
         }
 
-        // 🌟 단어/문장 탭 전환에 따른 게임 제한 효과 🌟
-        function handleDataTypeChange() {
+        window.showAlert = function(msg) {
+            document.getElementById('alert-msg').innerText = msg;
+            document.getElementById('custom-alert').style.display = 'flex';
+        }
+
+        window.showConfirm = function(msg, onYes) {
+            document.getElementById('confirm-msg').innerText = msg;
+            document.getElementById('custom-confirm').style.display = 'flex';
+            
+            document.getElementById('confirm-yes').onclick = function() {
+                document.getElementById('custom-confirm').style.display = 'none';
+                if(onYes) onYes();
+            };
+            document.getElementById('confirm-no').onclick = function() {
+                document.getElementById('custom-confirm').style.display = 'none';
+            };
+        }
+
+        window.showPrompt = function(msg, defaultText, onYes) {
+            document.getElementById('prompt-msg').innerText = msg;
+            document.getElementById('prompt-input').value = defaultText || '';
+            document.getElementById('custom-prompt').style.display = 'flex';
+            document.getElementById('prompt-input').focus();
+            
+            document.getElementById('prompt-yes').onclick = function() {
+                const val = document.getElementById('prompt-input').value.trim();
+                document.getElementById('custom-prompt').style.display = 'none';
+                if(onYes) onYes(val);
+            };
+            document.getElementById('prompt-no').onclick = function() {
+                document.getElementById('custom-prompt').style.display = 'none';
+            };
+        }
+
+        window.handleDataTypeChange = function() {
             const dataType = document.querySelector('input[name="data-type"]:checked').value;
             
             const blurLabel = document.querySelector('input[value="blur"]').closest('.mode-label');
@@ -1203,7 +1051,7 @@
                 unjumbleLabel.classList.add('disabled-mode');
                 if (document.querySelector('input[value="unjumble"]').checked) {
                     document.querySelector('input[value="blur"]').checked = true;
-                    toggleTimeInput();
+                    window.toggleModeSpecificInputs();
                 }
             } else if (dataType === 'sentence') {
                 scrambleLabel.classList.add('disabled-mode');
@@ -1211,37 +1059,121 @@
                 
                 if (['scramble', 'memory'].includes(document.querySelector('input[name="game-mode"]:checked').value)) {
                     document.querySelector('input[value="eraser"]').checked = true;
-                    toggleTimeInput();
+                    window.toggleModeSpecificInputs();
                 }
             }
-            loadPresetWords();
+            window.loadPresetWords();
         }
 
-        function loadPresetWords() {
-            const publisher = document.getElementById('publisher-select').value;
+        window.updateLessonOptions = function() {
             const grade = document.getElementById('grade-select').value;
+            const lessonSelect = document.getElementById('lesson-select');
+            
+            lessonSelect.innerHTML = '<option value="">단원 선택</option>';
+            if (!grade) return; 
+
+            const maxLesson = 12; // 출판사/학년별로 다르지만 최대 12단원까지 생성
+
+            for (let i = 1; i <= maxLesson; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = `Lesson ${i}`;
+                lessonSelect.appendChild(option);
+            }
+            
+            document.getElementById('word-list').value = '';
+            document.getElementById('lesson-info').value = '';
+        }
+
+        window.updateCustomLessonDropdown = function() {
+            const lessonSelect = document.getElementById('lesson-select');
+            lessonSelect.innerHTML = '<option value="">단어장 선택</option>';
+            
+            // 최신순 정렬
+            const sortedIds = Object.keys(customLessonsMap).sort((a,b) => b - a);
+            sortedIds.forEach(id => {
+                const option = document.createElement('option');
+                option.value = id;
+                option.text = customLessonsMap[id].title;
+                lessonSelect.appendChild(option);
+            });
+            
+            document.getElementById('word-list').value = '';
+            document.getElementById('lesson-info').value = '';
+        }
+
+        window.handlePublisherChange = function() {
+            const pub = document.getElementById('publisher-select').value;
+            const gradeSelect = document.getElementById('grade-select');
+            const deleteBtn = document.getElementById('delete-custom-btn');
+            const saveBtn = document.getElementById('save-custom-btn');
+            
+            if (pub === 'custom') {
+                gradeSelect.style.display = 'none';
+                deleteBtn.style.display = 'block';
+                saveBtn.style.display = 'block';
+                window.updateCustomLessonDropdown();
+            } else {
+                gradeSelect.style.display = 'block';
+                deleteBtn.style.display = 'none';
+                saveBtn.style.display = 'block';
+                window.updateLessonOptions();
+            }
+        }
+
+        window.loadPresetWords = function() {
+            const publisher = document.getElementById('publisher-select').value;
             const lesson = document.getElementById('lesson-select').value;
             const dataType = document.querySelector('input[name="data-type"]:checked').value;
             
+            if (publisher === 'custom') {
+                if (!lesson || !customLessonsMap[lesson]) {
+                    document.getElementById('word-list').value = '';
+                    document.getElementById('lesson-info').value = '';
+                    document.getElementById('delete-custom-btn').style.display = 'none';
+                    return;
+                }
+                const lessonData = customLessonsMap[lesson];
+                
+                // 저장된 단어장의 타입(단어/문장)으로 라디오 버튼 변경
+                if (lessonData.dataType && lessonData.dataType !== dataType) {
+                    const typeRadios = document.getElementsByName('data-type');
+                    for (const r of typeRadios) {
+                        if (r.value === lessonData.dataType) {
+                            r.checked = true;
+                            window.handleDataTypeChange();
+                            return; // 중복 실행 방지
+                        }
+                    }
+                }
+
+                document.getElementById('word-list').value = lessonData.words || '';
+                document.getElementById('lesson-info').value = lessonData.title;
+                document.getElementById('delete-custom-btn').style.display = 'block';
+                return;
+            }
+
+            const grade = document.getElementById('grade-select').value;
             if (!grade || !lesson) return;
 
             const modeLabel = dataType === 'word' ? '단어' : '문장';
-            const pubLabel = publisher === 'ybm' ? 'YBM' : '동아';
+            let pubLabel = '';
+            if(publisher === 'ybm') pubLabel = 'YBM';
+            else if(publisher === 'donga') pubLabel = '동아';
+            else if(publisher === 'chunjae') pubLabel = '천재(함)';
+            
             document.getElementById('lesson-info').value = `${pubLabel} ${grade}학년 Lesson ${lesson} (${modeLabel})`;
 
             let presetWords = [];
             if (publisher === 'ybm') {
-                if (dataType === 'word') {
-                    presetWords = ybmWordDatabase[grade]?.[lesson] || [];
-                } else {
-                    presetWords = ybmSentenceDatabase[grade]?.[lesson] || [];
-                }
+                if (dataType === 'word') presetWords = ybmWordDatabase[grade]?.[lesson] || [];
+                else presetWords = ybmSentenceDatabase[grade]?.[lesson] || [];
             } else if (publisher === 'donga') {
-                if (dataType === 'word') {
-                    presetWords = dongaWordDatabase[grade]?.[lesson] || [];
-                } else {
-                    presetWords = dongaSentenceDatabase[grade]?.[lesson] || [];
-                }
+                if (dataType === 'word') presetWords = dongaWordDatabase[grade]?.[lesson] || [];
+                else presetWords = dongaSentenceDatabase[grade]?.[lesson] || [];
+            } else if (publisher === 'chunjae') {
+                if (dataType === 'word') presetWords = chunjaeWordDatabase[grade]?.[lesson] || [];
+                else presetWords = chunjaeSentenceDatabase[grade]?.[lesson] || [];
             }
             
             if (presetWords.length > 0) {
@@ -1252,12 +1184,88 @@
             }
         }
 
-        function startGame() {
+        // 로컬스토리지에 내 단어장 저장
+        window.saveCustomLesson = function() {
+            const wordsStr = document.getElementById('word-list').value.trim();
+            if (!wordsStr) {
+                window.showAlert("저장할 데이터가 없습니다. 먼저 단어장에 내용을 입력하세요.");
+                return;
+            }
+
+            const currentTitle = document.getElementById('lesson-info').value.trim();
+            
+            window.showPrompt("저장할 단어장 이름을 입력하세요:", currentTitle || "새 단어장", (title) => {
+                if (!title) return;
+                const lessonId = Date.now().toString(); 
+                const dataType = document.querySelector('input[name="data-type"]:checked').value;
+                
+                const lessonData = {
+                    title: title,
+                    words: wordsStr,
+                    dataType: dataType,
+                    createdAt: new Date().toISOString()
+                };
+                
+                try {
+                    customLessonsMap[lessonId] = lessonData;
+                    localStorage.setItem('customLessons', JSON.stringify(customLessonsMap));
+                    window.showAlert("성공적으로 내 단어장에 저장되었습니다!");
+                    
+                    document.getElementById('publisher-select').value = 'custom';
+                    window.handlePublisherChange();
+                    document.getElementById('lesson-select').value = lessonId;
+                    window.loadPresetWords();
+                } catch(e) {
+                    console.error(e);
+                    window.showAlert("저장 중 오류가 발생했습니다.");
+                }
+            });
+        };
+
+        // 로컬스토리지에서 내 단어장 삭제
+        window.deleteCustomLesson = function() {
+            const lessonId = document.getElementById('lesson-select').value;
+            if (!lessonId || !customLessonsMap[lessonId]) return;
+
+            window.showConfirm("정말로 이 단어장을 삭제하시겠습니까?", () => {
+                try {
+                    delete customLessonsMap[lessonId];
+                    localStorage.setItem('customLessons', JSON.stringify(customLessonsMap));
+                    window.showAlert("단어장이 삭제되었습니다.");
+                    
+                    document.getElementById('word-list').value = '';
+                    document.getElementById('lesson-info').value = '';
+                    window.updateCustomLessonDropdown();
+                    document.getElementById('delete-custom-btn').style.display = 'none';
+                } catch(e) {
+                    console.error(e);
+                    window.showAlert("삭제 중 오류가 발생했습니다.");
+                }
+            });
+        };
+
+        window.toggleModeSpecificInputs = function() {
+            const modeRadios = document.getElementsByName('game-mode');
+            let isFlashlight = false;
+            let isMemory = false;
+            for (const radio of modeRadios) {
+                if (radio.checked) {
+                    if (radio.value === 'flashlight') isFlashlight = true;
+                    if (radio.value === 'memory') isMemory = true;
+                    break;
+                }
+            }
+            document.getElementById('time-setting-group').style.display = isFlashlight ? 'block' : 'none';
+            document.getElementById('stopwatch-setting-group').style.display = isMemory ? 'block' : 'none';
+            document.getElementById('memory-time-setting-group').style.display = isMemory ? 'block' : 'none';
+        }
+
+        window.startGame = function() {
             const rawWords = document.getElementById('word-list').value;
             const parsedLines = rawWords.split('\n').map(w => w.trim()).filter(w => w.length > 0);
             
             if (parsedLines.length === 0) {
-                showAlert("게임을 시작하려면 내용을 최소 1줄 이상 입력해주세요!");
+                window.showAlert("게임을 시작하려면 내용을 최소 1줄 이상 입력해주세요!");
                 document.getElementById('word-list').focus();
                 return;
             }
@@ -1273,11 +1281,11 @@
             const dataType = document.querySelector('input[name="data-type"]:checked').value;
             
             if (dataType === 'sentence' && (currentMode === 'scramble' || currentMode === 'memory')) {
-                showAlert("해당 모드는 '단어' 전용 게임입니다!\n[📝 단어 불러오기]를 선택하시거나 다른 게임을 골라주세요.");
+                window.showAlert("해당 모드는 '단어' 전용 게임입니다!\n[📝 단어 불러오기]를 선택하시거나 다른 게임을 골라주세요.");
                 return;
             }
             if (dataType === 'word' && currentMode === 'unjumble') {
-                showAlert("🧩 문장 조립 모드는 '문장' 전용 게임입니다!\n[💬 문장 불러오기]를 선택하시거나 다른 게임을 골라주세요.");
+                window.showAlert("🧩 문장 조립 모드는 '문장' 전용 게임입니다!\n[💬 문장 불러오기]를 선택하시거나 다른 게임을 골라주세요.");
                 return;
             }
             
@@ -1285,6 +1293,22 @@
             for (const radio of hintRadios) {
                 if (radio.checked) {
                     isHintModeOn = (radio.value === 'on');
+                    break;
+                }
+            }
+
+            const stopwatchRadios = document.getElementsByName('stopwatch-mode');
+            for (const radio of stopwatchRadios) {
+                if (radio.checked) {
+                    isStopwatchOn = (radio.value === 'on');
+                    break;
+                }
+            }
+
+            const memoryTimeRadios = document.getElementsByName('memory-time');
+            for (const radio of memoryTimeRadios) {
+                if (radio.checked) {
+                    memoryTimeInSeconds = parseInt(radio.value);
                     break;
                 }
             }
@@ -1332,8 +1356,7 @@
             playCurrentWord();
         }
 
-        // 🌟 부분 블러 해제 처리 🌟
-        function reduceBlur() {
+        window.reduceBlur = function() {
             if (currentBlur > 0) {
                 currentBlur -= 10;
                 if (currentBlur < 0) currentBlur = 0;
@@ -1345,7 +1368,6 @@
             const spans = document.getElementById('blur-word').querySelectorAll('span');
             if (spans.length > 0) {
                 spans.forEach((span, i) => {
-                    // 숨겨진 인덱스가 아니면 먼저 선명하게, 나중엔 숨겨진 인덱스도 선명하게 처리
                     if (!hiddenIndices.includes(i)) {
                         span.style.filter = `blur(${currentBlur}px)`;
                     } else {
@@ -1356,7 +1378,6 @@
                 document.getElementById('blur-word').style.filter = `blur(${currentBlur}px)`;
             }
 
-            // 모든 글자가 완전히 보이면 힌트 버튼 숨기기
             if (currentBlur === 0 && hiddenBlur === 0) {
                 document.getElementById('hint-btn').style.display = 'none';
             }
@@ -1380,7 +1401,6 @@
         }
 
         function playCurrentWord() {
-            // 모든 이전 타이머 초기화 (강력한 안전장치)
             if (timerId !== null) {
                 clearTimeout(timerId);
                 timerId = null;
@@ -1396,7 +1416,6 @@
             document.getElementById('answer-display').style.display = 'none';
             document.getElementById('word-display').style.display = 'none';
             
-            // 🌟 컨테이너 초기화 🌟
             const scrambleContainer = document.getElementById('scramble-container');
             scrambleContainer.style.display = 'none';
             scrambleContainer.innerHTML = ''; 
@@ -1408,7 +1427,6 @@
 
             document.getElementById('blur-container').style.display = 'none';
             
-            // 🌟 지우개 배틀 컨테이너 초기화 (버그 수정됨) 🌟
             const eraserContainer = document.getElementById('eraser-container');
             eraserContainer.style.display = 'none';
             eraserContainer.innerHTML = '';
@@ -1426,7 +1444,7 @@
             document.getElementById('retry-btn').style.display = 'none';
             document.getElementById('hint-btn').style.display = 'none';
 
-            updateProgress();
+            window.updateProgress();
             
             // ===============================================
             // 🃏 Memory 모드
@@ -1434,9 +1452,6 @@
             if (currentMode === 'memory') {
                 currentState = 'playing';
                 document.getElementById('progress-display').style.display = 'none';
-                
-                // 🌟 카드를 즉시 보여주지 않음 (안내 메시지 후 표시하기 위함)
-                // memoryContainer.style.display = 'grid'; 
 
                 let pairCount = Math.min(words.length, 10); 
                 let totalCards = pairCount * 2;
@@ -1475,16 +1490,14 @@
                     card.addEventListener('click', flipCard);
                 });
 
-                // 1. 시작 전 안내 메시지 (화면 중앙, 아주 어두운 배경 + 글자 박스)
                 darkness.className = 'fully-dark';
-                darkness.style.opacity = '0.9'; // 배경을 훨씬 더 어둡게
+                darkness.style.opacity = '0.9'; 
 
                 actionContainer.className = 'action-center';
                 const actionMsg = document.getElementById('action-message');
-                actionMsg.innerText = "5초간 카드의 짝을 기억하세요! 👀";
+                actionMsg.innerText = memoryTimeInSeconds + "초간 카드의 짝을 기억하세요! 👀";
                 actionMsg.style.fontSize = "clamp(2.5rem, 5vw, 4rem)";
                 
-                // 🌟 글자에만 집중할 수 있도록 반투명 검은 박스 깔기
                 actionMsg.style.background = 'rgba(0, 0, 0, 0.7)';
                 actionMsg.style.padding = '30px 50px';
                 actionMsg.style.borderRadius = '20px';
@@ -1501,12 +1514,10 @@
                 let firstCard, secondCard;
                 let matchedCount = 0;
 
-                // 2. 2초 후 안내창/배경 숨기고 카드 표시 & 5초 기억 시간 시작
                 timerId = setTimeout(() => {
                     actionContainer.style.display = 'none';
                     darkness.style.opacity = '0';
                     
-                    // 다른 게임에 영향이 가지 않도록 스타일 원상복구
                     actionMsg.style.fontSize = ""; 
                     actionMsg.style.background = "";
                     actionMsg.style.padding = "";
@@ -1515,10 +1526,8 @@
                     actionMsg.style.boxShadow = "";
                     actionMsg.style.display = "";
 
-                    // 🌟 이제 화면에 카드를 짠! 하고 보여줌
                     memoryContainer.style.display = 'grid';
 
-                    // 3. 5초 기억 시간 후 촤라락 애니메이션 진행
                     timerId = setTimeout(() => {
                         const cards = document.querySelectorAll('.memory-card');
                         
@@ -1526,18 +1535,21 @@
                         actionMsg.innerText = "짝을 맞춰보세요! 🃏";
                         actionContainer.style.display = 'block';
 
-                        // 촤라락 뒤집기
                         cards.forEach((card, i) => {
                             setTimeout(() => { card.classList.remove('flipped'); }, i * 50); 
                         });
                         
-                        // 게임 시작 (클릭 잠금 해제)
                         setTimeout(() => {
                             lockBoard = false;
                             setTimeout(() => { actionContainer.style.display = 'none'; }, 2000);
+                            
+                            if (isStopwatchOn) {
+                                document.getElementById('stopwatch-display').style.display = 'flex';
+                                startStopwatch();
+                            }
                         }, cards.length * 50 + 500);
 
-                    }, 5000);
+                    }, memoryTimeInSeconds * 1000);
                 }, 2000);
 
                 function flipCard() {
@@ -1569,9 +1581,20 @@
                     resetBoard();
 
                     if (matchedCount === pairCount) {
+                        let finalTimeMs = 0;
+                        if (isStopwatchOn) {
+                            finalTimeMs = stopStopwatch();
+                        }
+
                         setTimeout(() => {
                             currentState = 'memory-won';
-                            document.getElementById('action-message').innerText = "🎉 미션 클리어! 🎉";
+                            let winMsg = "🎉 미션 클리어! 🎉";
+                            if (isStopwatchOn) {
+                                const finalSec = (finalTimeMs / 1000).toFixed(2);
+                                winMsg = `🎉 미션 클리어! 🎉\n기록: ${finalSec}초`;
+                            }
+                            
+                            document.getElementById('action-message').innerText = winMsg;
                             document.getElementById('action-message').style.display = 'block';
                             actionBtn.innerText = "처음으로 돌아가기";
                             actionBtn.className = 'action-btn end-btn';
@@ -1611,7 +1634,6 @@
                 blurWord.innerHTML = ''; 
                 blurWord.style.color = '#339af0'; 
 
-                // 🌟 부분 블러 처리 로직
                 const chars = originalWord.split('');
                 let validIndices = [];
                 chars.forEach((c, i) => { if (c.trim() !== '') validIndices.push(i); });
@@ -1747,11 +1769,11 @@
                     }
 
                     const chunks = originalWord.split(' ').filter(c => c.trim().length > 0);
-                    let shuffledChunks = shuffleArray(chunks);
+                    let shuffledChunks = shuffleArray(chunks.slice());
                     if(chunks.length > 1) {
                         let attempts = 0;
                         while (shuffledChunks.join(' ') === chunks.join(' ') && attempts < 10) {
-                            shuffledChunks = shuffleArray(chunks);
+                            shuffledChunks = shuffleArray(chunks.slice());
                             attempts++;
                         }
                     }
@@ -1901,13 +1923,13 @@
             setTimeout(() => { actionContainer.style.display = 'block'; }, 500);
         }
 
-        function handleActionClick() {
+        window.handleActionClick = function() {
             if (currentState === 'writing') {
                 showAnswer();
             } else if (currentState === 'answered') {
-                nextWord();
+                window.nextWord();
             } else if (currentState === 'memory-won') {
-                resetGame();
+                window.resetGame();
             }
         }
 
@@ -1980,7 +2002,7 @@
             }
         }
 
-        function nextWord() {
+        window.nextWord = function() {
             if (timerId !== null) {
                 clearTimeout(timerId);
                 timerId = null;
@@ -1990,11 +2012,11 @@
                 currentWordIndex++;
                 playCurrentWord();
             } else {
-                resetGame();
+                window.resetGame();
             }
         }
 
-        function prevWord() {
+        window.prevWord = function() {
             if (timerId !== null) {
                 clearTimeout(timerId);
                 timerId = null;
@@ -2006,7 +2028,7 @@
             }
         }
 
-        function retryProblem() {
+        window.retryProblem = function() {
             if (timerId !== null) {
                 clearTimeout(timerId);
                 timerId = null;
@@ -2014,15 +2036,49 @@
             playCurrentWord();
         }
 
-        function updateProgress() {
+        window.updateProgress = function() {
             document.getElementById('progress-display').innerText = `Word ${currentWordIndex + 1} / ${words.length}`;
         }
 
-        function resetGame() {
+        function startStopwatch() {
+            stopwatchStartTime = Date.now();
+            updateStopwatchDisplay(0);
+            stopwatchIntervalId = setInterval(() => {
+                const elapsed = Date.now() - stopwatchStartTime;
+                updateStopwatchDisplay(elapsed);
+            }, 10);
+        }
+
+        function updateStopwatchDisplay(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const centiseconds = Math.floor((ms % 1000) / 10);
+            
+            const minStr = minutes.toString().padStart(2, '0');
+            const secStr = seconds.toString().padStart(2, '0');
+            const csStr = centiseconds.toString().padStart(2, '0');
+            
+            document.getElementById('stopwatch-display').innerText = `${minStr}:${secStr}.${csStr}`;
+        }
+
+        function stopStopwatch() {
+            if (stopwatchIntervalId !== null) {
+                clearInterval(stopwatchIntervalId);
+                stopwatchIntervalId = null;
+            }
+            return Date.now() - stopwatchStartTime;
+        }
+
+        window.resetGame = function() {
             if (timerId !== null) {
                 clearTimeout(timerId);
                 timerId = null;
             }
+
+            stopStopwatch();
+            document.getElementById('stopwatch-display').style.display = 'none';
+            document.getElementById('stopwatch-display').innerText = "00:00.00";
 
             document.getElementById('game-screen').style.display = 'none';
             document.getElementById('setup-screen').style.display = 'block';
@@ -2035,7 +2091,6 @@
             document.getElementById('unjumble-container').style.display = 'none';
             document.getElementById('blur-container').style.display = 'none';
             
-            // 🌟 종료 시에도 지우개 컨테이너 초기화
             document.getElementById('eraser-container').style.display = 'none';
             document.getElementById('eraser-container').innerHTML = '';
             
@@ -2044,9 +2099,9 @@
             document.getElementById('flashlight-overlay').style.opacity = '0';
         }
 
-        function quitGame() {
-            showConfirm("정말로 게임을 종료하고 처음으로 돌아가시겠습니까?", function() {
-                resetGame();
+        window.quitGame = function() {
+            window.showConfirm("정말로 게임을 종료하고 처음으로 돌아가시겠습니까?", function() {
+                window.resetGame();
             });
         }
     </script>
